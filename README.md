@@ -10,5 +10,5 @@ Asset Management. Tracking future contract obligations.  Use action items to doc
 Deployment. Tracking construction gating items.  Use the Vizion Package like a traditional action item register to track outstanding documents and other requirements for construction. Assign responsible departments and keep notes on progress and issues until resolved.
 
 Note. The Action Items are a child to the Project Tracker and the Lease Tracker. Additional relationships can be added to track actions for other business processes.
-You may also attach Action Items to other trackors, please consult your provider to learn more.
+
 
