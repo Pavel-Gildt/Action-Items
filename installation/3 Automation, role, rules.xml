@@ -1,0 +1,4898 @@
+<?xml version="1.0" encoding="UTF-8"?><COMPONENTS author="Action Items_admin" description="" name="dev.onevizion.com_BPL_01312023144944.xml" site="https&#x3a;&#x2f;&#x2f;dev.onevizion.com" ts="" ><RULES>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>Lock User&apos;s Account</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008444</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>45</RULE_TYPE_ID>
+   <RULE_TYPE>After Login Attempt</RULE_TYPE>
+   <ID_FIELD>USER_ID, LOGIN_SUCCESSFUL</ID_FIELD>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6436</APP_LABEL_ID>
+     <LABEL_TEXT>Login Attempted (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6436</APP_LABEL_ID>
+     <LABEL_TEXT>Login Attempted (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6436</APP_LABEL_ID>
+     <LABEL_TEXT>Login Attempted (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6436</APP_LABEL_ID>
+     <LABEL_TEXT>Login Attempted (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6436</APP_LABEL_ID>
+     <LABEL_TEXT>Login Attempted (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6465</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user inputs a username/password combination to login to the site (successful or unsuccessful).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6465</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user inputs a username/password combination to login to the site (successful or unsuccessful).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6465</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user inputs a username/password combination to login to the site (successful or unsuccessful).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6465</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user inputs a username/password combination to login to the site (successful or unsuccessful).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6465</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user inputs a username/password combination to login to the site (successful or unsuccessful).</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    c_time_interval constant float := 5/24/60; --5 minute interval
+    c_invalid_attempts constant number := 4;
+    v_uid number;
+    v_un varchar2(100);
+begin
+    v_uid := :USER_ID;
+    for rec in (select client_ip, count(client_ip) attempts from usage_log ul, users u
+                    where action_id = 9 and ul.un = u.un and u.user_id = v_uid
+                    and iis_start between sysdate - c_time_interval and sysdate group by client_ip)
+    loop
+        if (rec.attempts &gt; c_invalid_attempts) then
+            update users set lock_expires = sysdate + c_time_interval where user_id = v_uid;
+            exit;
+        end if;
+    end loop;
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS/>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>45</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES/>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>Check Password Strength</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008445</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>5</RULE_TYPE_ID>
+   <RULE_TYPE>After User Password Update</RULE_TYPE>
+   <ID_FIELD>USER_ID</ID_FIELD>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6415</APP_LABEL_ID>
+     <LABEL_TEXT>User Password Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6415</APP_LABEL_ID>
+     <LABEL_TEXT>User Password Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6415</APP_LABEL_ID>
+     <LABEL_TEXT>User Password Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6415</APP_LABEL_ID>
+     <LABEL_TEXT>User Password Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6415</APP_LABEL_ID>
+     <LABEL_TEXT>User Password Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6444</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user&apos;s password is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6444</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user&apos;s password is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6444</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user&apos;s password is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6444</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user&apos;s password is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6444</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a user&apos;s password is changed.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    c_complexity_rules constant number := 4;
+    c_required_complexity_rules constant number := 3;
+    c_min_pwd_length constant number := 10;
+    c_max_pwd_length constant number := 128;
+    v_password varchar2(255);
+    v_msg varchar2(2048);
+    v_first_rule_msg varchar2(300);
+    v_second_rule_msg varchar2(1748);
+    v_complexity_counter number;
+begin
+    v_password := pkg_vqsecurity.newpassword;
+    -- 1. Password Length
+    if (length(v_password) &lt; c_min_pwd_length) then
+        v_first_rule_msg := &apos;Minimum length of the password should be more than 10 characters.&apos;;
+    elsif (length(v_password) &gt; c_max_pwd_length) then
+        v_first_rule_msg := &apos;Maximum length of the password should be NO more than 128 characters.&apos;;
+    end if;
+
+    -- 2. Password Complexity
+    -- Accourding to the OWASP, a password must meet at least 3 out of the following 4 complexity rules:
+    -- https://www.owasp.org/index.php/Authentication_Cheat_Sheet#Implement_Proper_Password_Strength_Controls
+    v_complexity_counter := c_complexity_rules;
+    if (not regexp_like(v_password, &apos;[A-Z]&apos;)) then
+        v_second_rule_msg := v_second_rule_msg || &apos;at least 1 uppercase character (A-Z)&apos; || chr(10);
+        v_complexity_counter := v_complexity_counter - 1;
+    end if;
+
+    if (not regexp_like(v_password, &apos;[a-z]&apos;)) then
+        v_second_rule_msg := v_second_rule_msg || &apos;at least 1 lowercase character (a-z)&apos; || chr(10);
+        v_complexity_counter := v_complexity_counter - 1;
+    end if;
+
+    if (not regexp_like(v_password, &apos;[0-9]&apos;)) then
+        v_second_rule_msg := v_second_rule_msg || &apos;at least 1 digit (0-9)&apos; || chr(10);
+        v_complexity_counter := v_complexity_counter - 1;
+    end if;
+
+    if (not regexp_like(v_password, &apos;\W&apos;)) then
+        v_second_rule_msg := v_second_rule_msg || &apos;at least 1 special character (punctuation)&apos; || chr(10);
+        v_complexity_counter := v_complexity_counter - 1;
+    end if;
+
+    -- The additional rule for checking if a password contains more than 2 indentical charaters in a row
+    if (regexp_like(v_password, &apos;([a-z\d])\1{2,}&apos;)) then
+        v_second_rule_msg := v_second_rule_msg || &apos;not more than 2 identical characters in a row&apos; || chr(10);
+    end if;
+
+    if (v_first_rule_msg is not null) then
+        v_msg := &apos;Your password must meet the following rule about the password&apos;&apos;s length:&apos;
+            || chr(10) || v_first_rule_msg;
+    end if;
+
+    if ((v_complexity_counter &lt; c_required_complexity_rules)
+            and (v_second_rule_msg is not null)) then
+        v_msg := v_msg || chr(10) || chr(10) || &apos;Your password must meet the following complexity rules:&apos;
+            || chr(10) || v_second_rule_msg;
+    end if;
+
+    if (v_msg is not null) then
+        util.RaiseError(v_msg);
+    end if;
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS/>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>5</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES/>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <ORDER_NUMBER>2</ORDER_NUMBER>
+  <RULE>ACT_ACTION_COMMENTS</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008462</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    v_comment varchar2(4000);
+begin
+    v_comment := util.getvalstrbyid(:pk, id.action_items.cf.act_action_comments);
+    if v_comment is null then return; end if;
+    util.setvalcharbyid(:pk, id.action_items.cf.act_action_comment_history, util.getcurrentuser() || &apos; &apos; || to_char(current_date, &apos;mm/dd/yyyy hh12:miAM&apos;) || chr(13) || v_comment || chr(13) || util.getvalstrbyid(:pk, id.action_items.cf.act_action_comment_history));
+    util.setvalcharbyid(:pk, id.action_items.cf.act_action_comments, null);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619128</ITEM_ID>
+    <PKEY>100008462</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <DESCRIPTION>&lt;p&gt;Rule to maintain&amp;nbsp;ACT_ACTION_COMMENT_HISTORY&lt;/p&gt;
+</DESCRIPTION>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_ACTION_COMMENTS</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008462</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_COMMENTS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>Action Item Notification Nightly</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008463</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101406</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Every Hour</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=HOURLY; INTERVAL=1; BYMINUTE=0</REPEAT_INTERVAL>
+   <START_DATE>08/04/2021 10:00:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-63914</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every Hour</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-63914</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every Hour</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-63914</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every Hour</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-63914</APP_LABEL_ID>
+     <LABEL_TEXT>매 시간 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>-63914</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every Hour</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-63915</APP_LABEL_ID>
+     <LABEL_TEXT>Rule of this type will be Executed Every 1 Hour</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-63915</APP_LABEL_ID>
+     <LABEL_TEXT>Rule of this type will be Executed Every 1 Hour</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-63915</APP_LABEL_ID>
+     <LABEL_TEXT>Rule of this type will be Executed Every 1 Hour</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-63915</APP_LABEL_ID>
+     <LABEL_TEXT>이 유형의 규칙은 매 1 시간마다 실행됩니다</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>-63915</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every Hour</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+   v_current_date date := to_date(to_char(current_date, &apos;MM/DD/YYYY&apos;), &apos;MM/DD/YYYY&apos;);
+  v_project_id   number;
+  v_project_key  varchar2(4000);
+  v_email        varchar2(4000);
+begin
+
+ if trunc(current_date) &lt;&gt; trunc(current_date,&apos;HH24&apos;) then
+    return;
+  end if;
+
+  for cur in (select x.xitor_id, x.xitor_key, u.email
+                from xitor x
+                join config_value_number cvn1
+                  on (cvn1.key_value = x.xitor_id and
+                     cvn1.config_field_id =
+                     id.action_items.cf.act_enable_notifications and
+                     cvn1.value_number = 1)
+                join config_value_number cvn2
+                  on (cvn2.key_value = x.xitor_id and
+                     cvn2.config_field_id =
+                     id.action_items.cf.act_action_status and
+                     cvn2.value_number = 10023835)
+                join config_value_number cvn3
+                  on (cvn3.key_value = x.xitor_id and
+                     cvn3.config_field_id =
+                     id.action_items.cf.act_action_assigned_to and
+                     cvn3.value_number is not null)
+                join users u
+                  on (u.xitor_id = cvn3.value_number)
+                join config_value_date cvd
+                  on (cvd.key_value = x.xitor_id and
+                     cvd.config_field_id =
+                     id.action_items.cf.act_future_notification_date and
+                     cvd.value_date = v_current_date)
+               where x.xitor_type_id = id.action_items.tt) loop
+    v_project_id := util.getparentbyid(cur.xitor_id, id.project.tt);
+  
+    if v_project_id is not null then
+      v_project_key := util.getvalstrbyid(v_project_id,
+                                          id.project.cf.xitor_key);
+    end if;
+  
+    v_email := cur.email;
+  
+    for rec in (select u.email
+                  from config_value_mult cvm
+                  join users u
+                    on (u.xitor_id = cvm.value_number)
+                 where cvm.key_value = cur.xitor_id
+                   and cvm.config_field_id =
+                       id.action_items.cf.act_action_followers) loop
+      v_email := v_email || &apos;, &apos; || rec.email;
+    end loop;
+  
+    util.sendmail(&apos;OneVizion - Action  Item Notification&apos;,
+                  &apos;This Action Item record has reached the scheduled notification date. Please complete the open action item. &lt;br&gt;OneVizion Link: &apos; ||
+                  pkg_rpt.get_trackor_edit_url(cur.xitor_id) ||
+                  &apos; &lt;br&gt;Action ID: &apos; || cur.xitor_key ||
+                  &apos; &lt;br&gt;Parent Record(s): &apos; || v_project_key ||
+                  &apos; &lt;br&gt;Action Name: &apos; ||
+                  util.getvalstrbyid(cur.xitor_id, id.action_items.cf.act_action_item_name) ||
+                  &apos; &lt;br&gt;Status: &apos; ||
+                  util.getvalstrbyid(cur.xitor_id, id.action_items.cf.act_action_status) ||
+                  &apos; &lt;br&gt;Category: &apos; ||
+                  util.getvalstrbyid(cur.xitor_id,
+                                     id.action_items.cf.act_action_category) ||
+                  &apos; &lt;br&gt;Priority: &apos; ||
+                  util.getvalstrbyid(cur.xitor_id,
+                                     id.action_items.cf.act_priority) ||
+                  &apos; &lt;br&gt;Department: &apos; ||
+                  util.getvalstrbyid(cur.xitor_id,
+                                     id.action_items.cf.act_department_owner) ||
+                  &apos; &lt;br&gt;Due / Forecast Date: &apos; ||
+                  util.getvaldatebyid(cur.xitor_id,
+                                      id.action_items.cf.act_due__forecast_date) ||
+                  &apos; &lt;br&gt;Future Notification Date: &apos; ||
+                  util.getvaldatebyid(cur.xitor_id,
+                                      id.action_items.cf.act_future_notification_date) ||
+                  &apos; &lt;br&gt;Action Assigned To: &apos; ||
+                  util.getvalstrbyid(cur.xitor_id,
+                                     id.action_items.cf.act_action_assigned_to) ||
+                  &apos; &lt;br&gt;Action Comments: &apos; ||
+                  util.getvalstrbyid(cur.xitor_id,
+                                     id.action_items.cf.act_action_comments) ||
+                  &apos; &lt;br&gt;---&apos;,
+                  &apos;&apos;,
+                  v_email,
+                  null,
+                  null,
+                  &apos;html&apos;);
+  end loop;
+
+end;
+</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619129</ITEM_ID>
+    <PKEY>100008463</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <DESCRIPTION>&lt;p&gt;Nightly rule that sends email notifications that are queued up for that night in the Action Item tracker.&lt;/p&gt;
+</DESCRIPTION>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>Action Item Notification Nightly</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>101406</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008463</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_TIME_LAST_UPDATE fb</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008464</RULE_ID>
+  <RULE_PARAM>
+   <RULE_PARAM_ID>3</RULE_PARAM_ID>
+   <RULE_PARAM>XITOR_ID</RULE_PARAM>
+  </RULE_PARAM>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>4</RULE_TYPE_ID>
+   <RULE_TYPE>Form Buttons</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select xitor_type_id as &quot;Trackor Type ID&quot;,
+       xitor_type as &quot;Trackor Type&quot;,
+       xitor_type_id as &quot;Trackor Type Id&quot;
+from xitor_type
+where is_static_definition &lt;&gt; 1</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    v_date date;
+begin
+    select max(ts)
+      into v_date
+      from audit_log_cflite
+     where column_name = to_char(id.action_items.cf.act_action_comment_history)
+       and pk = :pk;   
+    util.setvaldatebyid(:pk, id.action_items.cf.act_time_last_update, v_date);
+exception when no_data_found then
+    util.setvaldatebyid(:pk, id.action_items.cf.act_time_last_update, null);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619130</ITEM_ID>
+    <PKEY>100008464</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_TIME_LAST_UPDATE fb</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>4</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008464</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS>
+   <VARCHAR2>Action_Items</VARCHAR2>
+  </TRACKOR_TYPE_IDNUMS>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>chat to ACT_ACTION_COMMENTS</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008465</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>90</RULE_TYPE_ID>
+   <RULE_TYPE>After Trackor Comment Create</RULE_TYPE>
+   <ID_FIELD>CHAT_MESSAGE_ID</ID_FIELD>
+   <TEMPLATE_SQL>select xt.xitor_type_id as &quot;Xitor Type ID&quot;,
+                xt.xitor_type as &quot;Xitor Type&quot;,
+                xt.xitor_type_id as &quot;Xitor Type Id&quot;
+           from xitor_type xt</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Chat Message Created (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Chat Message Created (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Chat Message Created (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Chat Message Created (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Chat Message Created (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Executed After the Trackor Chat Message is created.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Executed After the Trackor Chat Message is created.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Executed After the Trackor Chat Message is created.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Executed After the Trackor Chat Message is created.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Executed After the Trackor Chat Message is created.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    v_xitor_id number;
+    v_text varchar2(4000);
+begin
+
+    select chat.trackor_id, cm.text
+      into v_xitor_id, v_text
+      from chat
+      join chat_message cm on (cm.chat_id = chat.chat_id)
+     where cm.chat_message_id = :chat_message_id;
+
+    if util.isflagset(&apos;ACT_ACTION_COMMENTS to chat &apos; || v_xitor_id) = 1 then
+        util.clearflag(&apos;ACT_ACTION_COMMENTS to chat &apos; || v_xitor_id);
+        return;
+    end if;
+    
+    util.setflag(&apos;ACT_ACTION_COMMENTS to chat &apos; || v_xitor_id);
+    
+    util.setvalcharbyid(v_xitor_id, id.action_items.cf.act_action_comments, v_text);
+
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619131</ITEM_ID>
+    <PKEY>100008465</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>chat to ACT_ACTION_COMMENTS</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>90</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008465</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS>
+   <VARCHAR2>Action_Items</VARCHAR2>
+  </TRACKOR_TYPE_IDNUMS>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_AGE_OF_LAST_UPDATE 15 minutes</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008466</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101407</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Every 15 Minutes</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=HOURLY;BYMINUTE=0,15,30,45</REPEAT_INTERVAL>
+   <START_DATE>02/11/2021 02:35:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS/>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+
+    for rec in (
+        select x.xitor_id
+          from xitor x
+          join config_value_char cvc on
+              cvc.key_value = x.xitor_id
+              and cvc.config_field_id = id.action_items.cf.act_age_of_last_update
+              and cvc.value_char is not null
+          join config_value_number cvn on
+              cvn.key_value = x.xitor_id
+              and cvn.config_field_id = id.action_items.cf.act_action_status
+              and cvn.value_number &lt;&gt; id.vt.v_act_action_status.opened
+         where x.xitor_type_id = id.action_items.tt
+    ) loop
+        util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, null);
+    end loop;
+    
+    for rec in (
+        select x.xitor_id,
+               cvd.value_date
+          from xitor x
+          join config_value_date cvd on
+              cvd.key_value = x.xitor_id
+              and cvd.config_field_id = id.action_items.cf.act_time_last_update
+              and cvd.value_date is not null
+          join config_value_number cvn on
+              cvn.key_value = x.xitor_id
+              and cvn.config_field_id = id.action_items.cf.act_action_status
+              and cvn.value_number = id.vt.v_act_action_status.opened
+         where x.xitor_type_id = id.action_items.tt
+    ) loop
+        if round((current_date - rec.value_date) * 24 * 60) &gt;= 1440 then
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, to_char(round((current_date - rec.value_date))) || &apos; Days&apos;);
+        elsif round((current_date - rec.value_date) * 24 * 60) &gt;= 60 then
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, to_char(round((current_date - rec.value_date) * 24)) || &apos; Hours&apos;);
+        else
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, to_char(round((current_date - rec.value_date) * 24 * 60)) || &apos; Minutes&apos;);
+        end if;
+    end loop;
+    
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619132</ITEM_ID>
+    <PKEY>100008466</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_AGE_OF_LAST_UPDATE 15 minutes</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>101407</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008466</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_DAYS_UNTIL_DUE cfu</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008461</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    v_date date;
+begin
+    
+    v_date := util.getvaldatebyid(:pk, id.action_items.cf.act_due_date);
+    if nvl(util.getvalnumbyid(:pk, id.action_items.cf.act_action_status), 0) &lt;&gt; 10023835 /*Open*/ then
+        util.setvalnumbyid(:pk, id.action_items.cf.act_days_until_due, 0);
+    elsif v_date is null then
+        util.setvalnumbyid(:pk, id.action_items.cf.act_days_until_due, null);
+    else
+        util.setvalnumbyid(:pk, id.action_items.cf.act_days_until_due, round(v_date - current_date));
+    end if;
+    
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619127</ITEM_ID>
+    <PKEY>100008461</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_DAYS_UNTIL_DUE cfu</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008461</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_DUE_DATE</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_STATUS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_ACTION_DUE nightly</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008467</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101408</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Nightly</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=DAILY;BYHOUR=4;</REPEAT_INTERVAL>
+   <START_DATE>02/18/2020 11:32:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>야간 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>야간 자정 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    v_act_due_date date;
+begin
+
+    for rec in (
+        select xitor_id
+          from xitor
+         where xitor_type_id = id.action_items.tt
+    ) loop
+        v_act_due_date := util.getvaldatebyid(rec.xitor_id, id.action_items.cf.act_due__forecast_date);
+        if nvl(util.getvalnumbyid(rec.xitor_id, id.action_items.cf.act_action_status), -1) &lt;&gt; 10023835 /*Open*/ then
+            util.setvalnumbyid(rec.xitor_id, 1000066982 /*id.action_items.cf.act_action_due*/, null, 1);
+            continue;
+        end if;
+    
+        if v_act_due_date is null then
+            util.setvalnumbyid(rec.xitor_id, 1000066982 /*id.action_items.cf.act_action_due*/, null, 1);
+        elsif v_act_due_date - current_date &lt; 0 then
+            util.setvalnumbyid(rec.xitor_id, 1000066982 /*id.action_items.cf.act_action_due*/, 10025266 /*Past Due*/, 1);
+        elsif v_act_due_date - current_date &lt;= 7 then
+            util.setvalnumbyid(rec.xitor_id, 1000066982 /*id.action_items.cf.act_action_due*/, 10025267 /*Within 7-days*/, 1);
+        elsif v_act_due_date - current_date &lt;= 30 then
+            util.setvalnumbyid(rec.xitor_id, 1000066982 /*id.action_items.cf.act_action_due*/, 10025268 /*Within 30-days*/, 1);
+        elsif v_act_due_date - current_date &lt;= 60 then
+            util.setvalnumbyid(rec.xitor_id, 1000066982 /*id.action_items.cf.act_action_due*/, 10025269 /*Within 60-days*/, 1);
+        elsif v_act_due_date - current_date &lt;= 90 then
+            util.setvalnumbyid(rec.xitor_id, 1000066982 /*id.action_items.cf.act_action_due*/, 10025270 /*Within 90-days*/, 1);
+        else
+            util.setvalnumbyid(rec.xitor_id, 1000066982 /*id.action_items.cf.act_action_due*/, 10025271 /*&gt;90 Days*/, 1);
+        end if;
+    end loop;
+
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619133</ITEM_ID>
+    <PKEY>100008467</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_ACTION_DUE nightly</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>101408</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008467</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>Action Item Notification Nightly fb</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008468</RULE_ID>
+  <RULE_PARAM>
+   <RULE_PARAM_ID>3</RULE_PARAM_ID>
+   <RULE_PARAM>XITOR_ID</RULE_PARAM>
+  </RULE_PARAM>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>4</RULE_TYPE_ID>
+   <RULE_TYPE>Form Buttons</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select xitor_type_id as &quot;Trackor Type ID&quot;,
+       xitor_type as &quot;Trackor Type&quot;,
+       xitor_type_id as &quot;Trackor Type Id&quot;
+from xitor_type
+where is_static_definition &lt;&gt; 1</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    v_current_time varchar2 (4000) := to_char(current_date, &apos;HH24:MI&apos;);
+    v_current_date date := to_date(to_char(current_date, &apos;MM/DD/YYYY&apos;), &apos;MM/DD/YYYY&apos;);
+    v_project_id number;
+    v_project_key varchar2 (4000);
+    v_email varchar2 (4000);
+begin
+    
+    for cur in (select x.xitor_id,
+                       x.xitor_key,
+                       u.email
+                  from xitor x
+                  join config_value_number cvn1 on (
+                      cvn1.key_value = x.xitor_id
+                                               and
+                                                             cvn1.config_field_id = id.action_items.cf.act_enable_notifications
+                                               and cvn1.value_number = 1)
+                  join config_value_number cvn2 on (
+                      cvn2.key_value = x.xitor_id
+                                               and
+                                                             cvn2.config_field_id = id.action_items.cf.act_action_status
+                                               and cvn2.value_number = 10023835)
+                  join config_value_number cvn3 on (
+                      cvn3.key_value = x.xitor_id
+                                               and
+                                                             cvn3.config_field_id = id.action_items.cf.act_action_assigned_to
+                                               and cvn3.value_number is not null)
+                  join users u on(u.xitor_id = cvn3.value_number)
+        
+                 where x.xitor_type_id = id.action_items.tt)
+    loop
+        v_project_id := util.getparentbyid(cur.xitor_id, id.project.tt);
+
+        if v_project_id is not null then
+            v_project_key := util.getvalstrbyid(v_project_id, id.action_items.cf.xitor_key);
+        end if;
+        
+        v_email := cur.email;
+        
+        for rec in (select u.email
+                      from config_value_mult cvm
+                      join users u on(u.xitor_id = cvm.value_number)
+                     where cvm.key_value = cur.xitor_id
+                       and cvm.config_field_id = id.action_items.cf.act_action_followers)
+        loop
+            v_email := v_email || &apos;, &apos; || rec.email;
+        end loop;
+        
+        util.sendmail(&apos;OneVizion - Action Item Notification&apos;, &apos;This Action Item record has reached the scheduled notification date. Please complete the open action item. &lt;br&gt;OneVizion Link: https://dev-apps.onevizion.com/form/ConfigAppForm.do?id=&apos; || cur.xitor_id || &apos;&amp;ttid=100006856 &lt;br&gt;Action ID: &apos; || cur.xitor_key || &apos; &lt;br&gt;Parent Record(s): &apos; || v_project_key || &apos; &lt;br&gt;Action Name: &apos; || util.getvalstrbyid(cur.xitor_id, id.action_items.cf.act_action_item_name) || &apos; &lt;br&gt;Status: &apos; || util.getvalstrbyid(cur.xitor_id, id.action_items.cf.act_action_status) || &apos; &lt;br&gt;Category: &apos; || util.getvalstrbyid(cur.xitor_id, id.action_items.cf.act_action_category) || &apos; &lt;br&gt;Priority: &apos; || util.getvalstrbyid(cur.xitor_id, id.action_items.cf.act_priority) || &apos; &lt;br&gt;Department: &apos; || util.getvalstrbyid(cur.xitor_id, id.action_items.cf.act_department_owner) || &apos; &lt;br&gt;Due / Forecast Date: &apos; || util.getvaldatebyid(cur.xitor_id, id.action_items.cf.act_due__forecast_date) || &apos; &lt;br&gt;Future Notification Date: &apos; || util.getvaldatebyid(cur.xitor_id, id.action_items.cf.act_future_notification_date) || &apos; &lt;br&gt;Action Assigned To: &apos; || util.getvalstrbyid(cur.xitor_id, id.action_items.cf.act_action_assigned_to) || &apos; &lt;br&gt;Action Comments: &apos; || util.getvalstrbyid(cur.xitor_id, id.action_items.cf.act_action_comments) || &apos; &lt;br&gt;---&apos;, &apos;&apos;, v_email, null, null, &apos;html&apos;);
+    end loop;
+
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619134</ITEM_ID>
+    <PKEY>100008468</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <DESCRIPTION>&lt;p&gt;Nightly rule to send&amp;nbsp;Action Item Notification&lt;/p&gt;
+</DESCRIPTION>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>Action Item Notification Nightly fb</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>4</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008468</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS>
+   <VARCHAR2>Action_Items</VARCHAR2>
+  </TRACKOR_TYPE_IDNUMS>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_AGE_OF_LAST_UPDATE cfu</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008469</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    for rec in (
+        select x.xitor_id
+          from xitor x
+          join config_value_char cvc on
+              cvc.key_value = x.xitor_id
+              and cvc.config_field_id = id.action_items.cf.act_age_of_last_update
+              and cvc.value_char is not null
+          join config_value_number cvn on
+              cvn.key_value = x.xitor_id
+              and cvn.config_field_id = id.action_items.cf.act_action_status
+              and cvn.value_number &lt;&gt; id.vt.v_act_action_status.opened
+         where x.xitor_type_id = id.action_items.tt
+           and x.xitor_id = :pk
+    ) loop
+        util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, null);
+    end loop;
+    
+    for rec in (
+        select x.xitor_id,
+               cvd.value_date
+          from xitor x
+          join config_value_date cvd on
+              cvd.key_value = x.xitor_id
+              and cvd.config_field_id = id.action_items.cf.act_time_last_update
+              and cvd.value_date is not null
+          join config_value_number cvn on
+              cvn.key_value = x.xitor_id
+              and cvn.config_field_id = id.action_items.cf.act_action_status
+              and cvn.value_number = id.vt.v_act_action_status.opened
+         where x.xitor_type_id = id.action_items.tt
+           and x.xitor_id = :pk
+    ) loop
+        if round((current_date - rec.value_date) * 24 * 60) &gt;= 1440 then
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, to_char(round((current_date - rec.value_date))) || &apos; Days&apos;);
+        elsif round((current_date - rec.value_date) * 24 * 60) &gt;= 60 then
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, to_char(round((current_date - rec.value_date) * 24)) || &apos; Hours&apos;);
+        else
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, to_char(round((current_date - rec.value_date) * 24 * 60)) || &apos; Minutes&apos;);
+        end if;
+    end loop;
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619135</ITEM_ID>
+    <PKEY>100008469</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_AGE_OF_LAST_UPDATE cfu</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008469</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_TIME_LAST_UPDATE</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_STATUS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_AGE_OF_ACTION_ITEM cfu</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008470</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    
+    for rec in (
+        select x.xitor_id
+          from xitor x
+          join config_value_char cvc on
+              cvc.key_value = x.xitor_id
+              and cvc.config_field_id = id.action_items.cf.act_age_of_action_item
+              and cvc.value_char is not null
+          join config_value_number cvn on
+              cvn.key_value = x.xitor_id
+              and cvn.config_field_id = id.action_items.cf.act_action_status
+              and cvn.value_number &lt;&gt; id.vt.v_act_action_status.opened
+         where x.xitor_type_id = id.action_items.tt
+           and x.xitor_id = :pk
+    ) loop
+        util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, null);
+    end loop;
+    
+    for rec in (
+        select x.xitor_id,
+               cvd.value_date
+          from xitor x
+          join config_value_date cvd on
+              cvd.key_value = x.xitor_id
+              and cvd.config_field_id = id.action_items.cf.act_action_created_date
+              and cvd.value_date is not null
+          join config_value_number cvn on
+              cvn.key_value = x.xitor_id
+              and cvn.config_field_id = id.action_items.cf.act_action_status
+              and cvn.value_number = id.vt.v_act_action_status.opened
+         where x.xitor_type_id = id.action_items.tt
+           and x.xitor_id = :pk
+    ) loop
+        if round((current_date - rec.value_date) * 24 * 60) &gt;= 1440 then
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, to_char(round((current_date - rec.value_date))) || &apos; Days&apos;);
+        elsif round((current_date - rec.value_date) * 24 * 60) &gt;= 60 then
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, to_char(round((current_date - rec.value_date) * 24)) || &apos; Hours&apos;);
+        else
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, to_char(round((current_date - rec.value_date) * 24 * 60)) || &apos; Minutes&apos;);
+        end if;
+    end loop;
+    
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619136</ITEM_ID>
+    <PKEY>100008470</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_AGE_OF_ACTION_ITEM cfu</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008470</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_STATUS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_CREATED_DATE</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_ACTION_DUE cfu</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008471</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    v_act_due_date date;
+begin
+
+    v_act_due_date := util.getvaldatebyid(:pk, id.action_items.cf.act_due__forecast_date);
+    if nvl(util.getvalnumbyid(:pk, id.action_items.cf.act_action_status), -1) &lt;&gt; 10023835 /*Open*/ then
+        util.setvalnumbyid(:pk, 1000066982 /*id.action_items.cf.act_action_due*/, null, 1);
+        return;
+    end if;
+
+    if v_act_due_date is null then
+        util.setvalnumbyid(:pk, 1000066982 /*id.action_items.cf.act_action_due*/, null, 1);
+    elsif v_act_due_date - current_date &lt; 0 then
+        util.setvalnumbyid(:pk, 1000066982 /*id.action_items.cf.act_action_due*/, 10025266 /*Past Due*/, 1);
+    elsif v_act_due_date - current_date &lt;= 7 then
+        util.setvalnumbyid(:pk, 1000066982 /*id.action_items.cf.act_action_due*/, 10025267 /*Within 7-days*/, 1);
+    elsif v_act_due_date - current_date &lt;= 30 then
+        util.setvalnumbyid(:pk, 1000066982 /*id.action_items.cf.act_action_due*/, 10025268 /*Within 30-days*/, 1);
+    elsif v_act_due_date - current_date &lt;= 60 then
+        util.setvalnumbyid(:pk, 1000066982 /*id.action_items.cf.act_action_due*/, 10025269 /*Within 60-days*/, 1);
+    elsif v_act_due_date - current_date &lt;= 90 then
+        util.setvalnumbyid(:pk, 1000066982 /*id.action_items.cf.act_action_due*/, 10025270 /*Within 90-days*/, 1);
+    else
+        util.setvalnumbyid(:pk, 1000066982 /*id.action_items.cf.act_action_due*/, 10025271 /*&gt;90 Days*/, 1);
+    end if;
+    
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619137</ITEM_ID>
+    <PKEY>100008471</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_ACTION_DUE cfu</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008471</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_DUE__FORECAST_DATE</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_STATUS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_DAYS_UNTIL_DUE nightly</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008472</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101408</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Nightly</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=DAILY;BYHOUR=4;</REPEAT_INTERVAL>
+   <START_DATE>02/18/2020 11:32:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>야간 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>-63917</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>야간 자정 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>-63918</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    v_date date;
+begin
+    
+    for rec in (
+        select xitor_id
+          from xitor
+         where xitor_type_id = id.action_items.tt
+    ) loop
+        v_date := util.getvaldatebyid(rec.xitor_id, id.action_items.cf.act_due_date);
+        if nvl(util.getvalnumbyid(rec.xitor_id, id.action_items.cf.act_action_status), 0) &lt;&gt; 10023835 /*Open*/ then
+            util.setvalnumbyid(rec.xitor_id, id.action_items.cf.act_days_until_due, 0);
+        elsif v_date is null then
+            util.setvalnumbyid(rec.xitor_id, id.action_items.cf.act_days_until_due, null);
+        else
+            util.setvalnumbyid(rec.xitor_id, id.action_items.cf.act_days_until_due, round(v_date - current_date));
+        end if;
+    end loop;
+
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619138</ITEM_ID>
+    <PKEY>100008472</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_DAYS_UNTIL_DUE nightly</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>101408</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008472</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_TIME_LAST_UPDATE</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008473</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    util.setvaldatebyid(:pk, id.action_items.cf.act_time_last_update, current_date);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619139</ITEM_ID>
+    <PKEY>100008473</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_TIME_LAST_UPDATE</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008473</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_COMMENT_HISTORY</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <RULE>ACT_AGE_OF_ACTION_ITEM 15 minutes</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008474</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101407</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Every 15 Minutes</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=HOURLY;BYMINUTE=0,15,30,45</REPEAT_INTERVAL>
+   <START_DATE>02/11/2021 02:35:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>-63916</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS/>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+
+    for rec in (
+        select x.xitor_id
+          from xitor x
+          join config_value_char cvc on
+              cvc.key_value = x.xitor_id
+              and cvc.config_field_id = id.action_items.cf.act_age_of_action_item
+              and cvc.value_char is not null
+          join config_value_number cvn on
+              cvn.key_value = x.xitor_id
+              and cvn.config_field_id = id.action_items.cf.act_action_status
+              and cvn.value_number &lt;&gt; id.vt.v_act_action_status.opened
+         where x.xitor_type_id = id.action_items.tt
+    ) loop
+        util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, null);
+    end loop;
+    
+    for rec in (
+        select x.xitor_id,
+               cvd.value_date
+          from xitor x
+          join config_value_date cvd on
+              cvd.key_value = x.xitor_id
+              and cvd.config_field_id = id.action_items.cf.act_action_created_date
+              and cvd.value_date is not null
+          join config_value_number cvn on
+              cvn.key_value = x.xitor_id
+              and cvn.config_field_id = id.action_items.cf.act_action_status
+              and cvn.value_number = id.vt.v_act_action_status.opened
+         where x.xitor_type_id = id.action_items.tt
+    ) loop
+        if round((current_date - rec.value_date) * 24 * 60) &gt;= 1440 then
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, to_char(round((current_date - rec.value_date))) || &apos; Days&apos;);
+        elsif round((current_date - rec.value_date) * 24 * 60) &gt;= 60 then
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, to_char(round((current_date - rec.value_date) * 24)) || &apos; Hours&apos;);
+        else
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, to_char(round((current_date - rec.value_date) * 24 * 60)) || &apos; Minutes&apos;);
+        end if;
+    end loop;
+    
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619140</ITEM_ID>
+    <PKEY>100008474</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_AGE_OF_ACTION_ITEM 15 minutes</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>101407</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008474</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>0</IS_ENABLED>
+  <ORDER_NUMBER>1</ORDER_NUMBER>
+  <RULE>ACT_ACTION_COMMENTS to chat</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008475</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>11</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>declare
+    v_chat_msg_id number;
+    v_chat_id number;
+    v_temp varchar2(4000);
+begin
+
+    if util.getvalstrbyid(:pk, id.action_items.cf.act_action_comments) is null then
+        return;
+    end if;
+    
+    if util.isflagset(&apos;ACT_ACTION_COMMENTS to chat &apos; || :pk) = 1 then
+        util.clearflag(&apos;ACT_ACTION_COMMENTS to chat &apos; || :pk);
+        return;
+    end if;
+    
+    util.setflag(&apos;ACT_ACTION_COMMENTS to chat &apos; || :pk);
+    
+    begin
+        select chat_id
+          into v_chat_id
+          from chat
+         where trackor_id = :pk;
+    exception when no_data_found then
+        v_chat_id := null;
+    end;
+    
+    if v_chat_id is null then
+        v_chat_id := pkg_chat.create_trackor_chat(:pk);
+    end if;
+    
+    v_chat_msg_id := pkg_chat.create_msg_temp(v_chat_id, pkg_sec.get_cu(), util.getvalstrbyid(:pk, id.action_items.cf.act_action_comments));
+    pkg_chat.finalize_msg_and_notify(v_chat_msg_id, v_temp);
+
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619141</ITEM_ID>
+    <PKEY>100008475</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <NAME>ACT_ACTION_COMMENTS to chat</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008475</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_COMMENTS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+</RULES><AUTOMATIONS>
+ <AUTOMATIONS_ITEM>
+  <AUTOM_ID>1000824</AUTOM_ID>
+  <AUTOM_PROC_NAME>Action Item Automation</AUTOM_PROC_NAME>
+  <AUTOM_NAME>Action Status Autofill</AUTOM_NAME>
+  <DESCRIPTION>Sets [ACT_ACTION_STATUS] to [Closed] when [ACT_FINISH_DATE] is NOT NULL,&lt;br&gt; to [Open] when [ACT_FINISH_DATE] is NULL</DESCRIPTION>
+  <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+  <STOP_ON_FILTER_MATCH>1</STOP_ON_FILTER_MATCH>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <TRIGGER_CONFIG_FIELDS>
+   <T_BPL_AUTOM_TRIGGER_CF>
+    <CONFIG_FIELD_NAME>ACT_FINISH_DATE</CONFIG_FIELD_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <DATA_TYPE>2</DATA_TYPE>
+    <TRIGGER_TYPE_ID>8</TRIGGER_TYPE_ID>
+   </T_BPL_AUTOM_TRIGGER_CF>
+  </TRIGGER_CONFIG_FIELDS>
+  <TRIGGER_TASK_DATES/>
+  <TRIGGER_TASKS/>
+  <TRIGGER_TRACKOR_TYPES/>
+  <AUTOM_FILTERS>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>690</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000824</AUTOM_ID>
+    <ORDER_NUMBER>10</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>10039216</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_690</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1002597</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS/>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>666</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>690</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>1</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>0</ACTION_MODE_ID>
+      <ORDER_NUMBER>10</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>666</AUTOM_ACTION_ID>
+        <VALUE_NUMBER>100128954</VALUE_NUMBER>
+        <VALUE_NUMBER_VTABLE_NAME>V_ACT_ACTION_STATUS</VALUE_NUMBER_VTABLE_NAME>
+        <VALUE_NUMBER_VTABLE_VALUE>
+         <T_ATTRIB_V_TABLE_VALUE>
+          <ATTRIB_V_TABLE_VALUE_ID>100128954</ATTRIB_V_TABLE_VALUE_ID>
+          <ATTRIB_V_TABLE_ID>100008069</ATTRIB_V_TABLE_ID>
+          <VALUE>Closed</VALUE>
+          <ORDER_NUM>20</ORDER_NUM>
+          <DISPLAY>1</DISPLAY>
+          <FILTERABLE>1</FILTERABLE>
+          <COLOR>fadcd6</COLOR>
+          <VALUE_LABELS>
+           <T_LABEL>
+            <APP_LANG_ID>0</APP_LANG_ID>
+            <APP_LABEL_ID>-63824</APP_LABEL_ID>
+            <LABEL_TEXT>Closed</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>1</APP_LANG_ID>
+            <APP_LABEL_ID>-63824</APP_LABEL_ID>
+            <LABEL_TEXT>Closed</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>5</APP_LANG_ID>
+            <APP_LABEL_ID>-63824</APP_LABEL_ID>
+            <LABEL_TEXT>Closed</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>10</APP_LANG_ID>
+            <APP_LABEL_ID>-63824</APP_LABEL_ID>
+            <LABEL_TEXT>닫은</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>11</APP_LANG_ID>
+            <APP_LABEL_ID>-63824</APP_LABEL_ID>
+            <LABEL_TEXT>Closed</LABEL_TEXT>
+           </T_LABEL>
+          </VALUE_LABELS>
+         </T_ATTRIB_V_TABLE_VALUE>
+        </VALUE_NUMBER_VTABLE_VALUE>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_STATUS</CONFIG_FIELD_NAME>
+          <DATA_TYPE>4</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>691</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000824</AUTOM_ID>
+    <ORDER_NUMBER>999</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>10039217</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_691</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1002597</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS/>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>667</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>691</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>1</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>0</ACTION_MODE_ID>
+      <ORDER_NUMBER>999</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>667</AUTOM_ACTION_ID>
+        <VALUE_NUMBER>100128958</VALUE_NUMBER>
+        <VALUE_NUMBER_VTABLE_NAME>V_ACT_ACTION_STATUS</VALUE_NUMBER_VTABLE_NAME>
+        <VALUE_NUMBER_VTABLE_VALUE>
+         <T_ATTRIB_V_TABLE_VALUE>
+          <ATTRIB_V_TABLE_VALUE_ID>100128958</ATTRIB_V_TABLE_VALUE_ID>
+          <ATTRIB_V_TABLE_ID>100008069</ATTRIB_V_TABLE_ID>
+          <VALUE>Opened</VALUE>
+          <ORDER_NUM>10</ORDER_NUM>
+          <DISPLAY>1</DISPLAY>
+          <FILTERABLE>1</FILTERABLE>
+          <COLOR>cbfbd2</COLOR>
+          <VALUE_LABELS>
+           <T_LABEL>
+            <APP_LANG_ID>0</APP_LANG_ID>
+            <APP_LABEL_ID>-63828</APP_LABEL_ID>
+            <LABEL_TEXT>Open</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>1</APP_LANG_ID>
+            <APP_LABEL_ID>-63828</APP_LABEL_ID>
+            <LABEL_TEXT>Open</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>5</APP_LANG_ID>
+            <APP_LABEL_ID>-63828</APP_LABEL_ID>
+            <LABEL_TEXT>Open</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>10</APP_LANG_ID>
+            <APP_LABEL_ID>-63828</APP_LABEL_ID>
+            <LABEL_TEXT>열기</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>11</APP_LANG_ID>
+            <APP_LABEL_ID>-63828</APP_LABEL_ID>
+            <LABEL_TEXT>Open</LABEL_TEXT>
+           </T_LABEL>
+          </VALUE_LABELS>
+         </T_ATTRIB_V_TABLE_VALUE>
+        </VALUE_NUMBER_VTABLE_VALUE>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_STATUS</CONFIG_FIELD_NAME>
+          <DATA_TYPE>4</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+  </AUTOM_FILTERS>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>50</COMPONENT_ID>
+    <OBJECT_ID>1000824</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <TRIGGER_SCHEDULE/>
+  <TRIGGER_RELATION_TYPES/>
+ </AUTOMATIONS_ITEM>
+ <AUTOMATIONS_ITEM>
+  <AUTOM_ID>1000826</AUTOM_ID>
+  <AUTOM_PROC_NAME>Action Item Automation</AUTOM_PROC_NAME>
+  <AUTOM_NAME>ACT Created Date Default</AUTOM_NAME>
+  <DESCRIPTION>Sets [ACT_ACTION_CREATED_DATE] to [[date]] when [ACT_ACTION_ITEM_NAME] is NOT NULL</DESCRIPTION>
+  <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+  <STOP_ON_FILTER_MATCH>1</STOP_ON_FILTER_MATCH>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <TRIGGER_CONFIG_FIELDS>
+   <T_BPL_AUTOM_TRIGGER_CF>
+    <CONFIG_FIELD_NAME>ACT_ACTION_ITEM_NAME</CONFIG_FIELD_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <DATA_TYPE>0</DATA_TYPE>
+    <TRIGGER_TYPE_ID>8</TRIGGER_TYPE_ID>
+   </T_BPL_AUTOM_TRIGGER_CF>
+  </TRIGGER_CONFIG_FIELDS>
+  <TRIGGER_TASK_DATES/>
+  <TRIGGER_TASKS/>
+  <TRIGGER_TRACKOR_TYPES/>
+  <AUTOM_FILTERS>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>695</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000826</AUTOM_ID>
+    <ORDER_NUMBER>10</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>10039219</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_695</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1002597</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS/>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>669</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>695</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>1</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>1</ACTION_MODE_ID>
+      <FORMULA_UI>current_date
+</FORMULA_UI>
+      <ORDER_NUMBER>10</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>669</AUTOM_ACTION_ID>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_CREATED_DATE</CONFIG_FIELD_NAME>
+          <DATA_TYPE>2</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+  </AUTOM_FILTERS>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>50</COMPONENT_ID>
+    <OBJECT_ID>1000826</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <TRIGGER_SCHEDULE/>
+  <TRIGGER_RELATION_TYPES/>
+ </AUTOMATIONS_ITEM>
+ <AUTOMATIONS_ITEM>
+  <AUTOM_ID>1000825</AUTOM_ID>
+  <AUTOM_PROC_NAME>Action Item Automation</AUTOM_PROC_NAME>
+  <AUTOM_NAME>ACT Action Created By Default</AUTOM_NAME>
+  <DESCRIPTION>Sets [ACT_ACTION_CREATED_BY] to [[user]] when [ACT_ACTION_CREATED_DATE] is NOT NULL</DESCRIPTION>
+  <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+  <STOP_ON_FILTER_MATCH>1</STOP_ON_FILTER_MATCH>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <TRIGGER_CONFIG_FIELDS>
+   <T_BPL_AUTOM_TRIGGER_CF>
+    <CONFIG_FIELD_NAME>ACT_ACTION_CREATED_DATE</CONFIG_FIELD_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <DATA_TYPE>2</DATA_TYPE>
+    <TRIGGER_TYPE_ID>8</TRIGGER_TYPE_ID>
+   </T_BPL_AUTOM_TRIGGER_CF>
+  </TRIGGER_CONFIG_FIELDS>
+  <TRIGGER_TASK_DATES/>
+  <TRIGGER_TASKS/>
+  <TRIGGER_TRACKOR_TYPES/>
+  <AUTOM_FILTERS>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>693</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000825</AUTOM_ID>
+    <ORDER_NUMBER>10</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>10039218</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_693</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1002597</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS/>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>668</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>693</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>1</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>1</ACTION_MODE_ID>
+      <FORMULA_UI>util.getCurrentUser()</FORMULA_UI>
+      <ORDER_NUMBER>10</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>668</AUTOM_ACTION_ID>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_CREATED_BY</CONFIG_FIELD_NAME>
+          <DATA_TYPE>0</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+  </AUTOM_FILTERS>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>50</COMPONENT_ID>
+    <OBJECT_ID>1000825</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <TRIGGER_SCHEDULE/>
+  <TRIGGER_RELATION_TYPES/>
+ </AUTOMATIONS_ITEM>
+ <AUTOMATIONS_ITEM>
+  <AUTOM_ID>1000827</AUTOM_ID>
+  <AUTOM_PROC_NAME>Action Item Automation</AUTOM_PROC_NAME>
+  <AUTOM_NAME>Action Item Name Field Lock</AUTOM_NAME>
+  <DESCRIPTION>Sets [ACT_ACTION_ITEM_NAME] to Lock when [ACT_ACTION_CREATED_DATE] is NOT NULL</DESCRIPTION>
+  <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+  <STOP_ON_FILTER_MATCH>1</STOP_ON_FILTER_MATCH>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <TRIGGER_CONFIG_FIELDS>
+   <T_BPL_AUTOM_TRIGGER_CF>
+    <CONFIG_FIELD_NAME>ACT_ACTION_CREATED_DATE</CONFIG_FIELD_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <DATA_TYPE>2</DATA_TYPE>
+    <TRIGGER_TYPE_ID>8</TRIGGER_TYPE_ID>
+   </T_BPL_AUTOM_TRIGGER_CF>
+  </TRIGGER_CONFIG_FIELDS>
+  <TRIGGER_TASK_DATES/>
+  <TRIGGER_TASKS/>
+  <TRIGGER_TRACKOR_TYPES/>
+  <AUTOM_FILTERS>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>697</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000827</AUTOM_ID>
+    <ORDER_NUMBER>10</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>10039220</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_697</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1002597</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS/>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>670</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>697</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>4</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>0</ACTION_MODE_ID>
+      <ORDER_NUMBER>10</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>670</AUTOM_ACTION_ID>
+        <VALUE_NUMBER>1</VALUE_NUMBER>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_ITEM_NAME</CONFIG_FIELD_NAME>
+          <DATA_TYPE>0</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+  </AUTOM_FILTERS>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>50</COMPONENT_ID>
+    <OBJECT_ID>1000827</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <TRIGGER_SCHEDULE/>
+  <TRIGGER_RELATION_TYPES/>
+ </AUTOMATIONS_ITEM>
+</AUTOMATIONS><SEC_ROLES>
+ <SEC_ROLES_ITEM>
+  <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+  <DESCRIPTION>Access to the Action Items Vizion Package</DESCRIPTION>
+  <ROLE_TYPE>SUP - Action Items</ROLE_TYPE>
+  <AUTO_APP_ASSIGN>0</AUTO_APP_ASSIGN>
+  <AUTO_DISCP_ASSIGN>0</AUTO_DISCP_ASSIGN>
+  <AUTO_FILTER_ASSIGN>0</AUTO_FILTER_ASSIGN>
+  <AUTO_NOTIF_ASSIGN>0</AUTO_NOTIF_ASSIGN>
+  <AUTO_PAIR_ASSIGN>0</AUTO_PAIR_ASSIGN>
+  <AUTO_PORTAL_ASSIGN>0</AUTO_PORTAL_ASSIGN>
+  <AUTO_TOUR_ASSIGN>0</AUTO_TOUR_ASSIGN>
+  <AUTO_VIEW_ASSIGN>0</AUTO_VIEW_ASSIGN>
+  <AUTO_RULE_ASSIGN>0</AUTO_RULE_ASSIGN>
+  <AUTO_IMPORT_ASSIGN>0</AUTO_IMPORT_ASSIGN>
+  <AUTO_CHAT_ASSIGN>0</AUTO_CHAT_ASSIGN>
+  <AUTO_SSO_ASSIGN>0</AUTO_SSO_ASSIGN>
+  <PROGRAM_ID>1002597</PROGRAM_ID>
+  <SYS_PRIVS>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001201</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>110</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>API_DOCS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001221</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_DEFAULT_PAGE_SELECTOR</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001241</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>CONFIGIMPORT_INCREMENTAL</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001261</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>DEBUG_MODE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001181</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>190</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_WP_TASK_TYPE_GROUPS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001341</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>110</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>DB_DOCS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10011</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_SYS_MESSAGE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10012</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_TRACKOR_TOUR</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10013</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_TRACKOR_TOURS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10014</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_PROCESSES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10015</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>REPORT_MONITORING</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10016</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>MAPPER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10017</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>IMPORT_HISTORY</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10018</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>200</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASKS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100110</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_REPORT_WIZARD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100111</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>80</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>CONFIGIMPORT</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100112</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>150</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_CLIENT_FILES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100113</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>200</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>WORK_PLANS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100114</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>200</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASKS_OVERVIEW</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100115</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>200</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SUMMARY</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100116</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_NA_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100117</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_BLOCKCALC_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100118</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_BASELINE_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100120</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_USERS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100122</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DYNAMIC_V_TABLES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100123</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>190</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_WP_TEMPLATES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100124</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DATES_TO_TASKS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100125</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>110</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DB_STRUCTURE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100127</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_CONFIG_DATA_GROUP</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100128</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_CONFIG_FIELDS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100129</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_CONFIG_FORMS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100130</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_CONFIG_APP</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100131</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DYNAMIC_V_TABLE_VALUES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100132</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_CONFIG_IMPORT</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100136</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_MENU</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100137</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>190</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_WP_TASKS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100138</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>190</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_WP_TASK_TYPES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003164</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DATE_FIELDS_PAIR</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100142</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>30</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>BPL_EXP_IMP</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100143</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_RULE_TYPES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100144</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_RULES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100145</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>190</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_WP_CALENDARS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100146</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>150</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_LANGUAGES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100147</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_FILTER_VIEW</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002924</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_OBJECT_REFERENCE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100151</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TRACKOR_TEMPLATE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002604</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>MODIFY_READONLY_DATA</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002684</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_SERVICES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003004</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>LIMITED_ACCESS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003124</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_COORDINATE_PAIRS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100152</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_RELATOR_ITEMS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100153</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_GROUP_RELATOR_ITEMS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100154</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TRACKOR_BROWSER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003064</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_RESTRICTION_FILTER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100156</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>110</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_BPDOC_ITEMS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100157</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>110</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_BPDOC_MANUALS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100158</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>110</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_BPDOC_ORGANIZER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100159</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>110</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_BPDOC_HELP_TEMPLATE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100161</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_SQL_MODE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100163</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>180</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_WF_TEMPLATE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100164</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>180</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_WF</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100166</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>PORTAL_VIEW</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100167</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_PORTAL</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100187</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>NOTIFICATIONS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100188</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_CLONE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100189</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_LOGIN_AS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100190</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_REPORTS_ALL</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100191</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>AUDIT_LOG</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100192</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_GRID_ROW_EDITOR</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100193</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_RULES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100194</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_EXPORT</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100195</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_BULK_DOWNLOAD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100196</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_BULK_UPLOAD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100198</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_NOTIFICATIONS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100199</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_ASSIGN_UNASSIGN</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001100</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>120</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>BULK_UPLOAD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001102</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_TRACKOR_CLASSES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001103</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_PROJECTED_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001104</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_PROMISED_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001105</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_ACTUAL_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001106</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_FIELD_HISTORY</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001107</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_FIELD_LOCK_HISTORY</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001108</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>WEB_SERVICES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001109</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_EPM_PARAMETERS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001110</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TRACKOR_MAIL</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001111</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_TRACKOR_MAIL</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001112</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>USAGE_LOG</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001114</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>WORKFLOW</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001115</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>120</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>EFILE_BROWSER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001117</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_QUICK_MAP</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001118</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_CONFIG_TAB_EXT</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001119</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_CONFIG_APP_EXT</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001120</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_SYSTEM_LOCK</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001122</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>COMPONENTS_AUDIT_LOG</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001125</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>DOWNLOAD_HISTORY</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001126</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>REPORTS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002544</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>70</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>CHAT_MESSAGE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002564</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>70</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>CHAT_SUBSCRIPTION</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002584</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>USER_SELECTOR</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002585</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>CONFIG_FIELD_SELECTOR</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003024</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_ANNOUNCEMENTS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002764</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>70</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_CHAT_MESSAGES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003144</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_APPLIED_RESTRICTION_FILTERS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003184</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>110</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>USER_MANUAL</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001127</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>REPORTS_EMAIL_TO</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001131</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>CONFIG_SESSION</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001137</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>190</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_WP_TASK_TYPES_MAINTENANCE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001138</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>RULE_HISTORY</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001139</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_GRID_EDIT_MODE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001141</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DB_PACKAGE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001142</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_NOTIF_QUEUE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001143</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_RULE_QUEUE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001144</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>EXPORT_HISTORY</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001145</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>150</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_ERROR_TRANSLATION</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001146</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_TEAM</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001147</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_FAVORITES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001148</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_SHARE_PAGE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001149</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>70</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>FIELD_COMMENT</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001150</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>70</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>FIELD_COMMENT_ALL</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001151</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_PUBLIC_MAP</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001153</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>190</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_WP_DATE_PAIRS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001155</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_PRED_SUCC_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001156</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>Calendar</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001157</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_DURATION_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001158</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_EARLY_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001159</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_LATE_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001160</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TASK_COMMENTS_MOD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001161</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TEST_SQL</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001162</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>70</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>COMMENTS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001163</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_PARAM_SYSTEM</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001165</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>150</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_LABEL_SYSTEM</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001166</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>150</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_LABEL_PROGRAM</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001167</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DB_MAT_VIEW</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001168</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DB_JOB</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001170</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_PLSQL_BLOCK</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001171</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>30</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_COMPONENTS_PACKAGE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001172</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>80</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DROPGRID</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001173</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>150</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_LABEL_TASK</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001174</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>190</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_DISCIPLINES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001175</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_REPORT_GROUP</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001176</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_PROGRAM</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001281</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ERROR_LOG</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001301</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>DASHBOARD</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001321</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>REPORT_HISTORY</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001361</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_PROGRAM_USERS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001381</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_ADVANCED_EXPORT_OPTIONS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001401</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>EXPORT_NO_LIMIT</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002864</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>200</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>WORK_PLAN_OPTIONS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002904</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>FIELD_VIZION</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002964</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>TRACKOR_MAIL_LOG</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003044</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_NOTIF_EXTERNAL_EMAIL</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003104</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_USERS_COLLECT_PERFORMANCE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003204</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>CALENDAR_VIEW</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001421</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_SSO_PROVIDERS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002424</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>140</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_MODULE</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002464</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_RULE_RUN</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002484</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>CONFIGIMPORT_RECOVER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002504</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_AUTOMATION</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100121</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_SECURITY_ROLES</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>100197</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_TRACKOR_FORMS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1001164</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_PARAM_PROGRAM</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002724</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_VIEW_BUTTON</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002704</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>140</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_MODULE_RUN</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002705</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>140</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_MODULE_LOG</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002725</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_FILTER_BUTTON</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002784</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_AUTH_TOKENS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002804</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_MENU_INFO_CENTER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002805</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_MENU_DEV_CENTER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002806</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_MENU_ADMIN_CENTER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002824</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>SHOW_VALUE_COLOR_HISTORY</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002884</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>CARD_VIEW</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002944</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_REPORTS_USER</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1002984</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ADMIN_AUTOMATION_RUN</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>1003084</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>USER_SETTINGS_CONTACT_INFO</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+  </SYS_PRIVS>
+  <DEF_PRIVS>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>2</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>3</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>4</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>5</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>6</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>7</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>8</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>9</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>10</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>11</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>12</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>13</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>15</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>16</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>17</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>18</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>19</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>20</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>21</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>22</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>23</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>24</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>25</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>30</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>40</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>50</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>60</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>70</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>80</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>90</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>100</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>110</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>120</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>130</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>140</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>150</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>160</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>170</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>180</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>190</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>200</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+   <T_SEC_ROLE_DEF_PRIV>
+    <SEC_GROUP_TYPE_ID>210</SEC_GROUP_TYPE_ID>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_DEF_PRIV>
+  </DEF_PRIVS>
+  <PROG_PRIVS>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10020757</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>5</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>ACT_ACTION_ITEM_NAME_100008787</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+    <TRACKOR_TYPE_NAME>Action_Items</TRACKOR_TYPE_NAME>
+    <CONFIG_FIELD_NAME>ACT_ACTION_ITEM_NAME</CONFIG_FIELD_NAME>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10020751</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>15</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>Project</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10020755</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>15</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>Action_Items</SECURITY_GROUP>
+    <PRIV>REA</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10020752</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>3</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>Project_GENERAL_INFO</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10020756</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>3</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>Action_Items_GENERAL_INFO</SECURITY_GROUP>
+    <PRIV>RE</PRIV>
+   </T_SEC_ROLE_PRIV>
+   <T_SEC_ROLE_PRIV>
+    <SEC_ROLE_ID>10001185</SEC_ROLE_ID>
+    <SEC_GROUP_ID>10020758</SEC_GROUP_ID>
+    <SEC_GROUP_TYPE_ID>12</SEC_GROUP_TYPE_ID>
+    <SECURITY_GROUP>PROJECT--&gt;ACTION_ITEMS</SECURITY_GROUP>
+    <PRIV>NULL</PRIV>
+   </T_SEC_ROLE_PRIV>
+  </PROG_PRIVS>
+  <APP_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100006553</ENTITY_ID>
+    <ENTITY_NAME>Action Items</ENTITY_NAME>
+    <IS_ASSIGNED>1</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </APP_ASSIGNS>
+  <DISCP_ASSIGNS/>
+  <VIEW_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>10039469</ENTITY_ID>
+    <ENTITY_NAME>Action Item View</ENTITY_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <MODULE_NAME>TRACKOR_BROWSER</MODULE_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>10039470</ENTITY_ID>
+    <ENTITY_NAME>Action View</ENTITY_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <MODULE_NAME>TRACKOR_BROWSER</MODULE_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </VIEW_ASSIGNS>
+  <FILTER_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>10039213</ENTITY_ID>
+    <ENTITY_NAME>Open Meeting Actions</ENTITY_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <MODULE_NAME>TRACKOR_BROWSER</MODULE_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </FILTER_ASSIGNS>
+  <PORTAL_ASSIGNS/>
+  <RULE_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-1</ENTITY_ID>
+    <ENTITY_NAME>Mass Assign</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-2</ENTITY_ID>
+    <ENTITY_NAME>Mass Lock/Unlock</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-1000</ENTITY_ID>
+    <ENTITY_NAME>Automation 1</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-18</ENTITY_ID>
+    <ENTITY_NAME>Automation 18</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-19</ENTITY_ID>
+    <ENTITY_NAME>Automation 19</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-20</ENTITY_ID>
+    <ENTITY_NAME>Automation 20</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-80</ENTITY_ID>
+    <ENTITY_NAME>Automation 80</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-21</ENTITY_ID>
+    <ENTITY_NAME>Automation 21</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-23</ENTITY_ID>
+    <ENTITY_NAME>Automation 23</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-3</ENTITY_ID>
+    <ENTITY_NAME>File Copy Helper</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-55</ENTITY_ID>
+    <ENTITY_NAME>Automation 55</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-8</ENTITY_ID>
+    <ENTITY_NAME>Automation 8</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008444</ENTITY_ID>
+    <ENTITY_NAME>Lock User&apos;s Account</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008445</ENTITY_ID>
+    <ENTITY_NAME>Check Password Strength</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-4</ENTITY_ID>
+    <ENTITY_NAME>Mass Start WorkFlow</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>-70</ENTITY_ID>
+    <ENTITY_NAME>Automation 70</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008462</ENTITY_ID>
+    <ENTITY_NAME>ACT_ACTION_COMMENTS</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008463</ENTITY_ID>
+    <ENTITY_NAME>Action Item Notification Nightly</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008464</ENTITY_ID>
+    <ENTITY_NAME>ACT_TIME_LAST_UPDATE fb</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008465</ENTITY_ID>
+    <ENTITY_NAME>chat to ACT_ACTION_COMMENTS</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008466</ENTITY_ID>
+    <ENTITY_NAME>ACT_AGE_OF_LAST_UPDATE 15 minutes</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008461</ENTITY_ID>
+    <ENTITY_NAME>ACT_DAYS_UNTIL_DUE cfu</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008467</ENTITY_ID>
+    <ENTITY_NAME>ACT_ACTION_DUE nightly</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008468</ENTITY_ID>
+    <ENTITY_NAME>Action Item Notification Nightly fb</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008469</ENTITY_ID>
+    <ENTITY_NAME>ACT_AGE_OF_LAST_UPDATE cfu</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008470</ENTITY_ID>
+    <ENTITY_NAME>ACT_AGE_OF_ACTION_ITEM cfu</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008471</ENTITY_ID>
+    <ENTITY_NAME>ACT_ACTION_DUE cfu</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008472</ENTITY_ID>
+    <ENTITY_NAME>ACT_DAYS_UNTIL_DUE nightly</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008473</ENTITY_ID>
+    <ENTITY_NAME>ACT_TIME_LAST_UPDATE</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008474</ENTITY_ID>
+    <ENTITY_NAME>ACT_AGE_OF_ACTION_ITEM 15 minutes</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008475</ENTITY_ID>
+    <ENTITY_NAME>ACT_ACTION_COMMENTS to chat</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </RULE_ASSIGNS>
+  <IMPORT_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100007286</ENTITY_ID>
+    <ENTITY_NAME>Action Items Default Data Import</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </IMPORT_ASSIGNS>
+  <REPORT_ASSIGNS/>
+  <RPT_DELIVERY_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>1</ENTITY_ID>
+    <ENTITY_NAME>File</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>2</ENTITY_ID>
+    <ENTITY_NAME>E-Mail</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>3</ENTITY_ID>
+    <ENTITY_NAME>E-Mail with Link</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>4</ENTITY_ID>
+    <ENTITY_NAME>Down Load Folder</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>5</ENTITY_ID>
+    <ENTITY_NAME>SFTP the File</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>6</ENTITY_ID>
+    <ENTITY_NAME>FTP the File</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>7</ENTITY_ID>
+    <ENTITY_NAME>Copy on Report Server</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>9</ENTITY_ID>
+    <ENTITY_NAME>Public Map</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>8</ENTITY_ID>
+    <ENTITY_NAME>E-File</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </RPT_DELIVERY_ASSIGNS>
+  <NOTIF_TYPE_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>10</ENTITY_ID>
+    <ENTITY_NAME>User Added</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>20</ENTITY_ID>
+    <ENTITY_NAME>User Updated</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>30</ENTITY_ID>
+    <ENTITY_NAME>User Deleted</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>40</ENTITY_ID>
+    <ENTITY_NAME>Trackor Added</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>50</ENTITY_ID>
+    <ENTITY_NAME>Trackor Updated</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>60</ENTITY_ID>
+    <ENTITY_NAME>Trackor Deleted</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>70</ENTITY_ID>
+    <ENTITY_NAME>Trackor Relation Updated</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>80</ENTITY_ID>
+    <ENTITY_NAME>WP Added</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>90</ENTITY_ID>
+    <ENTITY_NAME>WP Updated</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100</ENTITY_ID>
+    <ENTITY_NAME>WP Config Field Updated</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>110</ENTITY_ID>
+    <ENTITY_NAME>WP Deleted</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>120</ENTITY_ID>
+    <ENTITY_NAME>Task Updated</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>130</ENTITY_ID>
+    <ENTITY_NAME>Task Config Field Updated</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>140</ENTITY_ID>
+    <ENTITY_NAME>Task NAed</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>150</ENTITY_ID>
+    <ENTITY_NAME>Task NA Removed</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>160</ENTITY_ID>
+    <ENTITY_NAME>Task Date Changed</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>180</ENTITY_ID>
+    <ENTITY_NAME>WF Step Started</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>190</ENTITY_ID>
+    <ENTITY_NAME>WF Step Finished</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>200</ENTITY_ID>
+    <ENTITY_NAME>Module Started</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>210</ENTITY_ID>
+    <ENTITY_NAME>Module Finished with Errors</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>220</ENTITY_ID>
+    <ENTITY_NAME>Module Finished Successfully</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>230</ENTITY_ID>
+    <ENTITY_NAME>Chat Message Added</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>240</ENTITY_ID>
+    <ENTITY_NAME>MFA Code Notification</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </NOTIF_TYPE_ASSIGNS>
+  <NOTIF_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>1003109</ENTITY_ID>
+    <ENTITY_NAME>Action_Items Comment Added</ENTITY_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>1003110</ENTITY_ID>
+    <ENTITY_NAME>Action Item Update</ENTITY_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </NOTIF_ASSIGNS>
+  <TOUR_ASSIGNS/>
+  <EXPORT_TYPE_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>1</ENTITY_ID>
+    <ENTITY_NAME>Grid to CSV</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>2</ENTITY_ID>
+    <ENTITY_NAME>Grid to Excel</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>3</ENTITY_ID>
+    <ENTITY_NAME>Map Objects to Google Earth</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>4</ENTITY_ID>
+    <ENTITY_NAME>Map Objects to MapInfo</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>5</ENTITY_ID>
+    <ENTITY_NAME>E-Files to ZIP</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>7</ENTITY_ID>
+    <ENTITY_NAME>Grid to CSV (API compatible)</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>6</ENTITY_ID>
+    <ENTITY_NAME>Grid to JSON</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </EXPORT_TYPE_ASSIGNS>
+  <TRACKOR_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008787</ENTITY_ID>
+    <ENTITY_NAME>Action_Items</ENTITY_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>100008785</ENTITY_ID>
+    <ENTITY_NAME>Project</ENTITY_NAME>
+    <TRACKOR_TYPE>Project</TRACKOR_TYPE>
+   </T_SEC_ROLE_ASSIGN>
+  </TRACKOR_ASSIGNS>
+  <BPD_ITEMS/>
+  <SPEC_TASKS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>13</COMPONENT_ID>
+    <OBJECT_ID>10001185</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101465</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1002597</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <SSO_ASSIGNS>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>11193</ENTITY_ID>
+    <ENTITY_NAME>Saml Name 1 </ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>11173</ENTITY_ID>
+    <ENTITY_NAME>Passwordless OneVizion</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>11053</ENTITY_ID>
+    <ENTITY_NAME>idp.ssocircle.com</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>11153</ENTITY_ID>
+    <ENTITY_NAME>BindID - Sandbox</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+   <T_SEC_ROLE_ASSIGN>
+    <ENTITY_ID>11194</ENTITY_ID>
+    <ENTITY_NAME>Saml Name 1</ENTITY_NAME>
+    <IS_ASSIGNED>0</IS_ASSIGNED>
+   </T_SEC_ROLE_ASSIGN>
+  </SSO_ASSIGNS>
+  <RESTRICTION_FILTER_ASSIGNS/>
+ </SEC_ROLES_ITEM>
+</SEC_ROLES>
+</COMPONENTS>
