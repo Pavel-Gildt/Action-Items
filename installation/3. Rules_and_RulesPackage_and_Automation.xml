@@ -1,0 +1,3079 @@
+<?xml version="1.0" encoding="UTF-8"?><COMPONENTS author="pavel.gildt" description="" name="dev-apps.onevizion.com_BPL_02102023175801.xml" site="https&#x3a;&#x2f;&#x2f;dev-apps.onevizion.com" ts="" ><RULES>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>Action Item Notification Nightly fb</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100006500</RULE_ID>
+  <RULE_PARAM>
+   <RULE_PARAM_ID>3</RULE_PARAM_ID>
+   <RULE_PARAM>XITOR_ID</RULE_PARAM>
+  </RULE_PARAM>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>4</RULE_TYPE_ID>
+   <RULE_TYPE>Form Buttons</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select xitor_type_id as &quot;Trackor Type ID&quot;,
+       xitor_type as &quot;Trackor Type&quot;,
+       xitor_type_id as &quot;Trackor Type Id&quot;
+from xitor_type
+where is_static_definition &lt;&gt; 1</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>양식 버튼</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>La Tâche De Mise À Jour (Après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Boutons de forme</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Botones de formulario</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>트랙터 브라우저 또는 작업 보기 페이지에서 선택할 때 실행됨. 이 사용 규칙을 선택할 수 있는 기록을 수행할 어떤 특별한 기능(예를들면,삭제 Trackors,잠금 또는 잠금 해제 분야,질량 값을 지정,등등.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Exécutée lorsqu&apos;une valeur est mise à jour.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté lorsqu&apos;il est sélectionné dans le navigateur Trackor ou les pages de la vue Tâche. Ceci est utilisé pour sélectionner une règle pouvant être écrite pour effectuer toute fonction spéciale (E.g.; Supprimer les suiveurs; champs de verrouillage ou de déverrouillage; masse Attribuer des valeurs; etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado cuando se selecciona de las páginas Navegador Trackor o Vista de tareas. Esto se utiliza para seleccionar una regla que se puede escribir para realizar cualquier función especial (por ejemplo, eliminar Trackors, bloquear o desbloquear campos, asignar valores masivos, etc.).</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.send_action_item_notification;
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000616008</ITEM_ID>
+    <PKEY>100006500</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <DESCRIPTION>&lt;p&gt;Nightly rule to send&amp;nbsp;Action Item Notification&lt;/p&gt;
+</DESCRIPTION>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>Action Item Notification Nightly fb</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>4</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100006500</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101223</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Program &amp; Project Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100006500</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS>
+   <VARCHAR2>Action_Items</VARCHAR2>
+  </TRACKOR_TYPE_IDNUMS>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>Action Item Notification Nightly</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100006605</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101183</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Nightly</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=DAILY;BYHOUR=4;</REPEAT_INTERVAL>
+   <START_DATE>02/18/2020 11:32:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>야간 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter la nuit</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutan Nightly</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>야간 자정 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter tous les Soirs à Minuit</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter la nuit à minuit</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutan Noche a Medianoche</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.send_action_item_notification;
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000616093</ITEM_ID>
+    <PKEY>100006605</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <DESCRIPTION>&lt;p&gt;Nightly rule that sends email notifications that are queued up for that night in the Action Item tracker.&lt;/p&gt;
+</DESCRIPTION>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>Action Item Notification Nightly</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>101183</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100006605</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101223</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Program &amp; Project Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100006605</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_TIME_LAST_UPDATE</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100007444</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Champ mis à jour (après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Campo Actualizado (Después)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Les règles de ce type sera exécuté à minuit.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté lorsque la valeur d&apos;un champ est modifiée.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado cuando se cambia el valor de un Campo.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.set_time_last_update(:pk);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617051</ITEM_ID>
+    <PKEY>100007444</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_TIME_LAST_UPDATE</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007444</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_COMMENT_HISTORY</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_AGE_OF_LAST_UPDATE cfu</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100007445</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Champ mis à jour (après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Campo Actualizado (Después)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Les règles de ce type sera exécuté à minuit.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté lorsque la valeur d&apos;un champ est modifiée.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado cuando se cambia el valor de un Campo.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.set_age_of_last_update(:pk);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617052</ITEM_ID>
+    <PKEY>100007445</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_AGE_OF_LAST_UPDATE cfu</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007445</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_STATUS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_TIME_LAST_UPDATE</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_AGE_OF_LAST_UPDATE 15 minutes</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100007446</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101263</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Every 15 Minutes</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=HOURLY;BYMINUTE=0,15,30,45</REPEAT_INTERVAL>
+   <START_DATE>02/11/2021 02:35:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter toutes les 15 minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutar cada 15 minutos</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS/>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    for rec in (
+        select xitor_id
+          from xitor
+         where xitor_type_id = id.action_items.tt
+    ) loop
+        pkg_action_item_managment.set_age_of_last_update(rec.xitor_id);
+    end loop;
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617053</ITEM_ID>
+    <PKEY>100007446</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_AGE_OF_LAST_UPDATE 15 minutes</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>101263</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007446</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_TIME_LAST_UPDATE fb</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100007447</RULE_ID>
+  <RULE_PARAM>
+   <RULE_PARAM_ID>3</RULE_PARAM_ID>
+   <RULE_PARAM>XITOR_ID</RULE_PARAM>
+  </RULE_PARAM>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>4</RULE_TYPE_ID>
+   <RULE_TYPE>Form Buttons</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select xitor_type_id as &quot;Trackor Type ID&quot;,
+       xitor_type as &quot;Trackor Type&quot;,
+       xitor_type_id as &quot;Trackor Type Id&quot;
+from xitor_type
+where is_static_definition &lt;&gt; 1</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Form Buttons</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>양식 버튼</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>La Tâche De Mise À Jour (Après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Boutons de forme</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6414</APP_LABEL_ID>
+     <LABEL_TEXT>Botones de formulario</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when selected from the Trackor Browser or Task View pages. This is used to select a rule that can be written to perform any special function (e.g., delete Trackors, lock or unlock fields, mass assign values, etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>트랙터 브라우저 또는 작업 보기 페이지에서 선택할 때 실행됨. 이 사용 규칙을 선택할 수 있는 기록을 수행할 어떤 특별한 기능(예를들면,삭제 Trackors,잠금 또는 잠금 해제 분야,질량 값을 지정,등등.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Exécutée lorsqu&apos;une valeur est mise à jour.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté lorsqu&apos;il est sélectionné dans le navigateur Trackor ou les pages de la vue Tâche. Ceci est utilisé pour sélectionner une règle pouvant être écrite pour effectuer toute fonction spéciale (E.g.; Supprimer les suiveurs; champs de verrouillage ou de déverrouillage; masse Attribuer des valeurs; etc.).</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6443</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado cuando se selecciona de las páginas Navegador Trackor o Vista de tareas. Esto se utiliza para seleccionar una regla que se puede escribir para realizar cualquier función especial (por ejemplo, eliminar Trackors, bloquear o desbloquear campos, asignar valores masivos, etc.).</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.set_time_last_update(:pk);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617054</ITEM_ID>
+    <PKEY>100007447</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_TIME_LAST_UPDATE fb</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>4</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007447</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS>
+   <VARCHAR2>Action_Items</VARCHAR2>
+  </TRACKOR_TYPE_IDNUMS>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_AGE_OF_ACTION_ITEM 15 minutes</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100007448</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101263</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Every 15 Minutes</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=HOURLY;BYMINUTE=0,15,30,45</REPEAT_INTERVAL>
+   <START_DATE>02/11/2021 02:35:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Every 15 Minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter toutes les 15 minutes</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-38695</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutar cada 15 minutos</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS/>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    for rec in (
+        select xitor_id
+          from xitor
+         where xitor_type_id = id.action_items.tt
+    ) loop
+        pkg_action_item_managment.set_age_of_action_item(rec.xitor_id);
+    end loop;
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617055</ITEM_ID>
+    <PKEY>100007448</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_AGE_OF_ACTION_ITEM 15 minutes</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>101263</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007448</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_AGE_OF_ACTION_ITEM cfu</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100007449</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Champ mis à jour (après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Campo Actualizado (Después)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Les règles de ce type sera exécuté à minuit.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté lorsque la valeur d&apos;un champ est modifiée.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado cuando se cambia el valor de un Campo.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.set_age_of_action_item(:pk);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617056</ITEM_ID>
+    <PKEY>100007449</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_AGE_OF_ACTION_ITEM cfu</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007449</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_STATUS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_CREATED_DATE</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <ORDER_NUMBER>2</ORDER_NUMBER>
+  <RULE>ACT_ACTION_COMMENTS</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100007464</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Champ mis à jour (après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Campo Actualizado (Después)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Les règles de ce type sera exécuté à minuit.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté lorsque la valeur d&apos;un champ est modifiée.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado cuando se cambia el valor de un Campo.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.action_comment_history(:pk);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617071</ITEM_ID>
+    <PKEY>100007464</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <DESCRIPTION>&lt;p&gt;Rule to maintain&amp;nbsp;ACT_ACTION_COMMENT_HISTORY&lt;/p&gt;
+</DESCRIPTION>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_ACTION_COMMENTS</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007464</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101223</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Program &amp; Project Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007464</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_COMMENTS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_ACTION_DUE cfu</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100007804</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Champ mis à jour (après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Campo Actualizado (Después)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Les règles de ce type sera exécuté à minuit.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté lorsque la valeur d&apos;un champ est modifiée.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado cuando se cambia el valor de un Campo.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.set_action_due(:pk);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617411</ITEM_ID>
+    <PKEY>100007804</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_ACTION_DUE cfu</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007804</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_STATUS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_DUE__FORECAST_DATE</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_ACTION_DUE nightly</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100007805</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101183</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Nightly</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=DAILY;BYHOUR=4;</REPEAT_INTERVAL>
+   <START_DATE>02/18/2020 11:32:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>야간 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter la nuit</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutan Nightly</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>야간 자정 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter tous les Soirs à Minuit</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter la nuit à minuit</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutan Noche a Medianoche</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    for rec in (
+        select xitor_id
+          from xitor
+         where xitor_type_id = id.action_items.tt
+    ) loop
+        pkg_action_item_managment.set_action_due(rec.xitor_id);
+    end loop;
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617412</ITEM_ID>
+    <PKEY>100007805</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_ACTION_DUE nightly</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>101183</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100007805</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>chat to ACT_ACTION_COMMENTS</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008029</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>90</RULE_TYPE_ID>
+   <RULE_TYPE>After Trackor Comment Create</RULE_TYPE>
+   <ID_FIELD>CHAT_MESSAGE_ID</ID_FIELD>
+   <TEMPLATE_SQL>select xt.xitor_type_id as &quot;Xitor Type ID&quot;,
+                xt.xitor_type as &quot;Xitor Type&quot;,
+                xt.xitor_type_id as &quot;Xitor Type Id&quot;
+           from xitor_type xt</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Chat Message Created (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Chat Message Created (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Chat Message Created (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>생성 된 트랙어 채팅 메시지(후)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté Après la Trackor est créé ou mis à jour.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Message de discussion Trackor créé (après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6493</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Chat Mensaje Creado (Después)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Executed After the Trackor Chat Message is created.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Executed After the Trackor Chat Message is created.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Executed After the Trackor Chat Message is created.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>트랙어 채팅 메시지가 생성 된 후에 실행됩니다.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Trackor Message De Discussion Créé (Après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté après la création du message de chat Trackor.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6494</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado Después de crear el Mensaje de Chat de Trackor.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.chat_to_action_comment(:chat_message_id);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617636</ITEM_ID>
+    <PKEY>100008029</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>chat to ACT_ACTION_COMMENTS</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>90</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008029</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS>
+   <VARCHAR2>Action_Items</VARCHAR2>
+  </TRACKOR_TYPE_IDNUMS>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <ORDER_NUMBER>1</ORDER_NUMBER>
+  <RULE>ACT_ACTION_COMMENTS to chat</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100008030</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Champ mis à jour (après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Campo Actualizado (Después)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Les règles de ce type sera exécuté à minuit.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté lorsque la valeur d&apos;un champ est modifiée.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado cuando se cambia el valor de un Campo.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.action_comment_to_chat(:pk);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000617637</ITEM_ID>
+    <PKEY>100008030</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_ACTION_COMMENTS to chat</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100008030</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_COMMENTS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_DAYS_UNTIL_DUE cfu</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100009446</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>8</RULE_TYPE_ID>
+   <RULE_TYPE>After Configured Field Update</RULE_TYPE>
+   <ID_FIELD>PK</ID_FIELD>
+   <TEMPLATE_SQL>select c.config_field_id as &quot;Config Field ID&quot;,
+c.config_field_name as &quot;Config Field Name&quot;,
+x.xitor_type as &quot;Xitor Type&quot;,
+lbl_pref.label_text || lbl_cf.label_text as &quot;Field Label&quot;,
+c.config_field_id as &quot;Config Field Id&quot;,
+dt.type_name as &quot;Data Type&quot;
+from config_field c
+join xitor_type x on x.xitor_type_id = c.xitor_type_id
+join config_field_data_type dt on dt.config_field_data_type_id = c.data_type
+left join vw_label lbl_cf on c.app_label_id = lbl_cf.label_id and lbl_cf.app_lang_id = :p_lang_id
+left join vw_label lbl_pref on x.prefix_label_id = lbl_pref.label_id and lbl_pref.app_lang_id = :p_lang_id
+where c.is_static = 0 or c.config_field_name in (&apos;XITOR_KEY&apos;,&apos;XITOR_CLASS_ID&apos;)</TEMPLATE_SQL>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Field Updated (After)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Champ mis à jour (après)</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6417</APP_LABEL_ID>
+     <LABEL_TEXT>Campo Actualizado (Después)</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Executed when a Field&apos;s value is changed.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Les règles de ce type sera exécuté à minuit.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuté lorsque la valeur d&apos;un champ est modifiée.</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>6446</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutado cuando se cambia el valor de un Campo.</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    pkg_action_item_managment.set_days_until_due(:pk);
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619173</ITEM_ID>
+    <PKEY>100009446</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_DAYS_UNTIL_DUE cfu</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>8</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100009446</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_ACTION_STATUS</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+   <T_TYPE_SPECIF_OBJ_IDNUM>
+    <XITOR_TYPE>Action_Items</XITOR_TYPE>
+    <OBJECT_NAME>ACT_DUE_DATE</OBJECT_NAME>
+   </T_TYPE_SPECIF_OBJ_IDNUM>
+  </CONFIG_FIELD_IDNUMS>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+ <RULES_ITEM>
+  <IS_ASYNC>0</IS_ASYNC>
+  <IS_ENABLED>1</IS_ENABLED>
+  <RULE>ACT_DAYS_UNTIL_DUE nightly</RULE>
+  <RULE_CLASS_ID>1</RULE_CLASS_ID>
+  <RULE_ID>100009447</RULE_ID>
+  <RULE_TYPE>
+   <RULE_TYPE_ID>101183</RULE_TYPE_ID>
+   <RULE_TYPE>Execute Nightly</RULE_TYPE>
+   <REPEAT_INTERVAL>FREQ=DAILY;BYHOUR=4;</REPEAT_INTERVAL>
+   <START_DATE>02/18/2020 11:32:00</START_DATE>
+   <TYPE_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>야간 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter Tous Les Soirs</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter la nuit</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-31238</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutan Nightly</LABEL_TEXT>
+    </T_LABEL>
+   </TYPE_LABELS>
+   <DESC_LABELS>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Execute Nightly at Midnight</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>야간 자정 실행</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter tous les Soirs à Minuit</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Exécuter la nuit à minuit</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-31239</APP_LABEL_ID>
+     <LABEL_TEXT>Ejecutan Noche a Medianoche</LABEL_TEXT>
+    </T_LABEL>
+   </DESC_LABELS>
+  </RULE_TYPE>
+  <SQL_TEXT>begin
+    for rec in (
+        select xitor_id
+          from xitor
+         where xitor_type_id = id.action_items.tt
+    ) loop
+        pkg_action_item_managment.set_days_until_due(rec.xitor_id);
+    end loop;
+end;</SQL_TEXT>
+  <WARNING_LABEL/>
+  <RULE_CLASS_PARAM_VALS/>
+  <RULE_HTTPCALLS/>
+  <RULE_HTTPCALL_PARAMS/>
+  <BPD_ITEMS>
+   <T_BPD_ITEM>
+    <ITEM_ID>10000619174</ITEM_ID>
+    <PKEY>100009447</PKEY>
+    <ITEM_TYPE_ID>9</ITEM_TYPE_ID>
+    <ITEM_STATUS_ID>1</ITEM_STATUS_ID>
+    <BLOB_DATA/>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <NAME>ACT_DAYS_UNTIL_DUE nightly</NAME>
+    <APP_LABEL/>
+   </T_BPD_ITEM>
+  </BPD_ITEMS>
+  <RULE_GEOCODING/>
+  <RULE_MAP_SNIPPETS/>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <RULE_TYPE_ID>101183</RULE_TYPE_ID>
+  <RULE_TOWER_GROUPS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>4</COMPONENT_ID>
+    <OBJECT_ID>100009447</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <CONFIG_FIELD_IDNUMS/>
+  <TASK_DATE_IDNUMS/>
+  <TASK_IDNUMS/>
+  <TRACKOR_TYPE_IDNUMS/>
+  <RELATION_TYPE_IDNUMS/>
+  <WP_TEMPLATE_IDNUMS/>
+  <WF_TEMPLATE_IDNUMS/>
+  <IMPORT_IDNUMS/>
+  <REPORT_IDNUMS/>
+  <COMPONENT_LABELS/>
+ </RULES_ITEM>
+</RULES><DB_PACKAGES>
+ <DB_PACKAGES_ITEM>
+  <DB_PKG_NAME>PKG_ACTION_ITEM_MANAGMENT</DB_PKG_NAME>
+  <PKG_NAME>PKG_ACTION_ITEM_MANAGMENT</PKG_NAME>
+  <DB_PACKAGE_SPEC>CREATE OR REPLACE EDITIONABLE PACKAGE &quot;PKG_ACTION_ITEM_MANAGMENT&quot; as
+
+    c_flag constant varchar2(4000) := &apos;ACT_ACTION_COMMENTS to chat &apos;;    
+
+    procedure action_comment_history(p_xitor_id in xitor.xitor_id%type);
+    procedure action_comment_to_chat(p_xitor_id in xitor.xitor_id%type);
+    procedure chat_to_action_comment(p_chat_message_id in chat_message.chat_message_id%type);
+    procedure set_action_due(p_xitor_id in xitor.xitor_id%type);
+    procedure set_age_of_action_item(p_xitor_id in xitor.xitor_id%type);
+    procedure set_age_of_last_update(p_xitor_id in xitor.xitor_id%type);
+    procedure set_days_until_due(p_xitor_id in xitor.xitor_id%type);
+    procedure set_time_last_update(p_xitor_id in xitor.xitor_id%type);
+    procedure send_action_item_notification;
+    
+end;</DB_PACKAGE_SPEC>
+  <DB_PACKAGE_BODY>CREATE OR REPLACE EDITIONABLE PACKAGE BODY &quot;PKG_ACTION_ITEM_MANAGMENT&quot; as
+
+    procedure action_comment_history(p_xitor_id in xitor.xitor_id%type) as
+        v_comment config_value_char.value_clob%type;
+    begin
+        v_comment := util.getvalmemobyid(p_xitor_id, id.action_items.cf.act_action_comments);
+        if v_comment is null then
+            return; 
+        end if;
+        util.setvalmemobyid(p_xitor_id, id.action_items.cf.act_action_comment_history, util.getcurrentuser() || &apos; &apos; || to_char(current_date, &apos;mm/dd/yyyy hh12:miAM&apos;) || chr(13) || v_comment || chr(13) || util.getvalstrbyid(p_xitor_id, id.action_items.cf.act_action_comment_history));
+        util.setvalmemobyid(p_xitor_id, id.action_items.cf.act_action_comments, null);
+    end action_comment_history;
+    
+    procedure action_comment_to_chat(p_xitor_id in xitor.xitor_id%type) as
+        v_chat_msg_id chat_message.chat_message_id%type;
+        v_chat_id chat.chat_id%type;
+        v_ret_str varchar2(4000);
+    begin
+    
+        if util.getvalstrbyid(p_xitor_id, id.action_items.cf.act_action_comments) is null 
+        or util.isflagset(c_flag || p_xitor_id) = 1
+        then
+            util.clearflag(c_flag || p_xitor_id);
+            return;
+        else
+            util.setflag(c_flag || p_xitor_id);
+        end if;
+
+        v_chat_id := util.gettrackorchatid(p_xitor_id);
+        if v_chat_id is null then
+            v_chat_id := pkg_chat.create_trackor_chat(p_xitor_id);
+        end if;
+    
+        v_chat_msg_id := pkg_chat.create_msg_temp(v_chat_id, pkg_sec.get_cu(), util.getvalstrbyid(p_xitor_id, id.action_items.cf.act_action_comments));
+        pkg_chat.finalize_msg_and_notify(v_chat_msg_id, v_ret_str);
+        
+    end action_comment_to_chat;
+    
+    procedure chat_to_action_comment(p_chat_message_id in chat_message.chat_message_id%type) as
+        v_xitor_id xitor.xitor_id%type;
+        v_text chat_message.text%type;
+    begin
+        
+        select c.trackor_id, 
+               cm.text
+          into v_xitor_id, 
+               v_text
+          from chat c
+          join chat_message cm on cm.chat_id = c.chat_id
+         where cm.chat_message_id = p_chat_message_id;
+
+        if util.isflagset(c_flag || v_xitor_id) = 1 then
+            util.clearflag(c_flag || v_xitor_id);
+            return;
+        else
+            util.setflag(c_flag || v_xitor_id);
+        end if;
+    
+        util.setvalcharbyid(v_xitor_id, id.action_items.cf.act_action_comments, v_text);
+        
+    end chat_to_action_comment;
+    
+    procedure set_action_due(p_xitor_id in xitor.xitor_id%type) as
+        v_act_due_date config_value_date.value_date%type;
+    begin
+        
+        v_act_due_date := util.getvaldatebyid(p_xitor_id, id.action_items.cf.act_due__forecast_date);
+        if nvl(util.getvalnumbyid(p_xitor_id, id.action_items.cf.act_action_status), -1) &lt;&gt; id.vt.v_act_action_status.opened then
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_action_due, null, 1);
+            return;
+        end if;
+
+        if v_act_due_date is null then
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_action_due, null, 1);
+        elsif v_act_due_date - current_date &lt; 0 then
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_action_due, id.vt.v_act_acton_due.past_due, 1);
+        elsif v_act_due_date - current_date &lt;= 7 then
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_action_due, id.vt.v_act_acton_due.within_seven_days, 1);
+        elsif v_act_due_date - current_date &lt;= 30 then
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_action_due, id.vt.v_act_acton_due.within_thirty_days, 1);
+        elsif v_act_due_date - current_date &lt;= 60 then
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_action_due, id.vt.v_act_acton_due.within_sixty_days, 1);
+        elsif v_act_due_date - current_date &lt;= 90 then
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_action_due, id.vt.v_act_acton_due.within_ninety_days, 1);
+        else
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_action_due, id.vt.v_act_acton_due.over_ninety_days, 1);
+        end if;
+        
+    end set_action_due;
+    
+    procedure set_age_of_action_item(p_xitor_id in xitor.xitor_id%type) as
+    begin
+    
+        for rec in (
+            select x.xitor_id
+              from xitor x
+              join config_value_char cvc on
+                  cvc.key_value = x.xitor_id
+                  and cvc.config_field_id = id.action_items.cf.act_age_of_action_item
+                  and cvc.value_char is not null
+              join config_value_number cvn on
+                  cvn.key_value = x.xitor_id
+                  and cvn.config_field_id = id.action_items.cf.act_action_status
+                  and cvn.value_number &lt;&gt; id.vt.v_act_action_status.opened
+             where x.xitor_type_id = id.action_items.tt
+               and x.xitor_id = p_xitor_id
+        ) loop
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, null);
+        end loop;
+    
+        for rec in (
+            select x.xitor_id,
+                   cvd.value_date
+              from xitor x
+              join config_value_date cvd on
+                  cvd.key_value = x.xitor_id
+                  and cvd.config_field_id = id.action_items.cf.act_action_created_date
+                  and cvd.value_date is not null
+              join config_value_number cvn on
+                  cvn.key_value = x.xitor_id
+                  and cvn.config_field_id = id.action_items.cf.act_action_status
+                  and cvn.value_number = id.vt.v_act_action_status.opened
+             where x.xitor_type_id = id.action_items.tt
+               and x.xitor_id = p_xitor_id
+        ) loop
+            if round((current_date - rec.value_date) * 24 * 60) &gt;= 1440 then
+                util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, to_char(round((current_date - rec.value_date))) || &apos; Days&apos;);
+            elsif round((current_date - rec.value_date) * 24 * 60) &gt;= 60 then
+                util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, to_char(round((current_date - rec.value_date) * 24)) || &apos; Hours&apos;);
+            else
+                util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_action_item, to_char(round((current_date - rec.value_date) * 24 * 60)) || &apos; Minutes&apos;);
+            end if;
+        end loop;
+        
+    end set_age_of_action_item;
+    
+    procedure set_age_of_last_update(p_xitor_id in xitor.xitor_id%type) as
+    begin
+    
+        for rec in (
+            select x.xitor_id
+              from xitor x
+              join config_value_char cvc on
+                  cvc.key_value = x.xitor_id
+                  and cvc.config_field_id = id.action_items.cf.act_age_of_last_update
+                  and cvc.value_char is not null
+              join config_value_number cvn on
+                  cvn.key_value = x.xitor_id
+                  and cvn.config_field_id = id.action_items.cf.act_action_status
+                  and cvn.value_number &lt;&gt; id.vt.v_act_action_status.opened
+             where x.xitor_type_id = id.action_items.tt
+               and x.xitor_id = p_xitor_id
+        ) loop
+            util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, null);
+        end loop;
+    
+        for rec in (
+            select x.xitor_id,
+                   cvd.value_date
+              from xitor x
+              join config_value_date cvd on
+                  cvd.key_value = x.xitor_id
+                  and cvd.config_field_id = id.action_items.cf.act_time_last_update
+                  and cvd.value_date is not null
+              join config_value_number cvn on
+                  cvn.key_value = x.xitor_id
+                  and cvn.config_field_id = id.action_items.cf.act_action_status
+                  and cvn.value_number = id.vt.v_act_action_status.opened
+             where x.xitor_type_id = id.action_items.tt
+               and x.xitor_id = p_xitor_id
+        ) loop
+            if round((current_date - rec.value_date) * 24 * 60) &gt;= 1440 then
+                util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, to_char(round((current_date - rec.value_date))) || &apos; Days&apos;);    
+            elsif round((current_date - rec.value_date) * 24 * 60) &gt;= 60 then
+                util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, to_char(round((current_date - rec.value_date) * 24)) || &apos; Hours&apos;);
+            else
+                util.setvalcharbyid(rec.xitor_id, id.action_items.cf.act_age_of_last_update, to_char(round((current_date - rec.value_date) * 24 * 60)) || &apos; Minutes&apos;);
+            end if;
+        end loop;
+        
+    end set_age_of_last_update;
+    
+    procedure set_days_until_due(p_xitor_id in xitor.xitor_id%type) as
+        v_date config_value_date.value_date%type;
+    begin
+        v_date := util.getvaldatebyid(p_xitor_id, id.action_items.cf.act_due_date);
+        if nvl(util.getvalnumbyid(p_xitor_id, id.action_items.cf.act_action_status), -1) &lt;&gt; id.vt.v_act_action_status.opened then
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_days_until_due, 0);
+        elsif v_date is null then
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_days_until_due, null);
+        else
+            util.setvalnumbyid(p_xitor_id, id.action_items.cf.act_days_until_due, round(v_date - current_date));
+        end if;
+    end set_days_until_due;
+    
+    procedure set_time_last_update(p_xitor_id in xitor.xitor_id%type) as
+        v_date config_value_date.value_date%type;
+    begin
+        select max(ts)
+          into v_date
+          from audit_log_cflite
+         where column_name = to_char(id.action_items.cf.act_action_comment_history)
+           and pk = p_xitor_id;   
+        util.setvaldatebyid(p_xitor_id, id.action_items.cf.act_time_last_update, v_date);
+    exception when no_data_found then
+        util.setvaldatebyid(p_xitor_id, id.action_items.cf.act_time_last_update, null);
+    end set_time_last_update;
+    
+    procedure send_action_item_notification as
+        v_project_id xitor.xitor_id%type;
+        v_project_key xitor.xitor_key%type;
+        v_email users.email%type;
+    begin
+
+        for rec in (
+            select x.xitor_id, 
+                   x.xitor_key, 
+                   u.email
+              from xitor x
+              join config_value_number cvn1 on 
+                  cvn1.key_value = x.xitor_id 
+                  and cvn1.config_field_id = id.action_items.cf.act_enable_notifications 
+                  and cvn1.value_number = 1
+              join config_value_number cvn2 on 
+                  cvn2.key_value = x.xitor_id
+                  and cvn2.config_field_id = id.action_items.cf.act_action_status
+                  and cvn2.value_number = id.vt.v_act_action_status.opened
+              join config_value_number cvn3 on 
+                  cvn3.key_value = x.xitor_id 
+                  and cvn3.config_field_id = id.action_items.cf.act_action_assigned_to 
+                  and cvn3.value_number is not null
+              join users u on u.xitor_id = cvn3.value_number
+              join config_value_date cvd on 
+                  cvd.key_value = x.xitor_id 
+                  and cvd.config_field_id = id.action_items.cf.act_future_notification_date 
+                  and cvd.value_date = current_date
+             where x.xitor_type_id = id.action_items.tt
+        ) loop
+        
+            v_project_id := util.getparentbyid(rec.xitor_id, id.project.tt);
+            if v_project_id is not null then
+                v_project_key := util.getvalstrbyid(v_project_id, id.project.cf.xitor_key);
+            end if;
+
+            select listagg(u.email, &apos;, &apos; on overflow truncate) within group (order by u.email)
+              into v_email
+              from config_value_mult cvm
+              join users u on u.xitor_id = cvm.value_number
+             where cvm.key_value = rec.xitor_id
+               and cvm.config_field_id = id.action_items.cf.act_action_followers;
+            if v_email is null then
+                v_email := rec.email;
+            else
+                v_email := rec.email || &apos;, &apos; || v_email;
+            end if;
+            
+            util.sendmail(
+                util.formatlabel(-64632, pkg_label.list_label_params()),
+                util.formatlabel(-64633, pkg_label.list_label_params(&apos;trackor_link&apos; =&gt; pkg_rpt.get_trackor_edit_url(rec.xitor_id), &apos;xitor_key&apos; =&gt; rec.xitor_key, &apos;v_project_key&apos; =&gt; v_project_key, &apos;act_action_item_name&apos; =&gt; util.getvalstrbyid(rec.xitor_id, id.action_items.cf.act_action_item_name), &apos;act_action_status&apos; =&gt; util.getvalstrbyid(rec.xitor_id, id.action_items.cf.act_action_status), &apos;act_action_category&apos; =&gt; util.getvalstrbyid(rec.xitor_id, id.action_items.cf.act_action_category), &apos;act_priority&apos; =&gt; util.getvalstrbyid(rec.xitor_id, id.action_items.cf.act_priority), &apos;act_department_owner&apos; =&gt; util.getvalstrbyid(rec.xitor_id, id.action_items.cf.act_department_owner), &apos;act_due__forecast_date&apos; =&gt; util.getvalstrbyid(rec.xitor_id, id.action_items.cf.act_due__forecast_date), &apos;act_future_notification_date&apos; =&gt; util.getvalstrbyid(rec.xitor_id, id.action_items.cf.act_future_notification_date), &apos;act_action_assigned_to&apos; =&gt; util.getvalstrbyid(rec.xitor_id, id.action_items.cf.act_action_assigned_to), &apos;act_action_comments&apos; =&gt; util.getvalstrbyid(rec.xitor_id, id.action_items.cf.act_action_comments))),
+                &apos;&apos;,
+                v_email,
+                null,
+                null,
+               &apos;html&apos;
+            );
+            
+        end loop;
+        
+    end send_action_item_notification;
+    
+end;</DB_PACKAGE_BODY>
+  <DB_PACKAGE_ID>11513</DB_PACKAGE_ID>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <BPD_ITEMS/>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>27</COMPONENT_ID>
+    <OBJECT_ID>11513</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <COMPONENT_LABELS>
+   <LIST_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-64633</APP_LABEL_ID>
+     <LABEL_TEXT>This Action Item record has reached the scheduled notification date. Please complete the open action item. &lt;br&gt;OneVizion Link: {trackor_link}  &lt;br&gt;Action ID: {xitor_key} &lt;br&gt;Parent Record(s): {v_project_key} &lt;br&gt;Action Name: {act_action_item_name} &lt;br&gt;Status: {act_action_status} &lt;br&gt;Category: {act_action_category} &lt;br&gt;Priority: {act_priority}&lt;br&gt;Department: {act_department_owner} &lt;br&gt;Due / Forecast Date: {act_due__forecast_date} &lt;br&gt;Future Notification Date: {act_future_notification_date} &lt;br&gt;Action Assigned To: {act_action_assigned_to} &lt;br&gt;Action Comments: {act_action_comments} &lt;br&gt;---</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-64633</APP_LABEL_ID>
+     <LABEL_TEXT>This Action Item record has reached the scheduled notification date. Please complete the open action item. &lt;br&gt;OneVizion Link: {trackor_link}  &lt;br&gt;Action ID: {xitor_key} &lt;br&gt;Parent Record(s): {v_project_key} &lt;br&gt;Action Name: {act_action_item_name} &lt;br&gt;Status: {act_action_status} &lt;br&gt;Category: {act_action_category} &lt;br&gt;Priority: {act_priority}&lt;br&gt;Department: {act_department_owner} &lt;br&gt;Due / Forecast Date: {act_due__forecast_date} &lt;br&gt;Future Notification Date: {act_future_notification_date} &lt;br&gt;Action Assigned To: {act_action_assigned_to} &lt;br&gt;Action Comments: {act_action_comments} &lt;br&gt;---</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-64633</APP_LABEL_ID>
+     <LABEL_TEXT>This Action Item record has reached the scheduled notification date. Please complete the open action item. &lt;br&gt;OneVizion Link: {trackor_link}  &lt;br&gt;Action ID: {xitor_key} &lt;br&gt;Parent Record(s): {v_project_key} &lt;br&gt;Action Name: {act_action_item_name} &lt;br&gt;Status: {act_action_status} &lt;br&gt;Category: {act_action_category} &lt;br&gt;Priority: {act_priority}&lt;br&gt;Department: {act_department_owner} &lt;br&gt;Due / Forecast Date: {act_due__forecast_date} &lt;br&gt;Future Notification Date: {act_future_notification_date} &lt;br&gt;Action Assigned To: {act_action_assigned_to} &lt;br&gt;Action Comments: {act_action_comments} &lt;br&gt;---</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-64633</APP_LABEL_ID>
+     <LABEL_TEXT>This Action Item record has reached the scheduled notification date. Please complete the open action item. &lt;br&gt;OneVizion Link: {trackor_link}  &lt;br&gt;Action ID: {xitor_key} &lt;br&gt;Parent Record(s): {v_project_key} &lt;br&gt;Action Name: {act_action_item_name} &lt;br&gt;Status: {act_action_status} &lt;br&gt;Category: {act_action_category} &lt;br&gt;Priority: {act_priority}&lt;br&gt;Department: {act_department_owner} &lt;br&gt;Due / Forecast Date: {act_due__forecast_date} &lt;br&gt;Future Notification Date: {act_future_notification_date} &lt;br&gt;Action Assigned To: {act_action_assigned_to} &lt;br&gt;Action Comments: {act_action_comments} &lt;br&gt;---</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-64633</APP_LABEL_ID>
+     <LABEL_TEXT>This Action Item record has reached the scheduled notification date. Please complete the open action item. &lt;br&gt;OneVizion Link: {trackor_link}  &lt;br&gt;Action ID: {xitor_key} &lt;br&gt;Parent Record(s): {v_project_key} &lt;br&gt;Action Name: {act_action_item_name} &lt;br&gt;Status: {act_action_status} &lt;br&gt;Category: {act_action_category} &lt;br&gt;Priority: {act_priority}&lt;br&gt;Department: {act_department_owner} &lt;br&gt;Due / Forecast Date: {act_due__forecast_date} &lt;br&gt;Future Notification Date: {act_future_notification_date} &lt;br&gt;Action Assigned To: {act_action_assigned_to} &lt;br&gt;Action Comments: {act_action_comments} &lt;br&gt;---</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-64633</APP_LABEL_ID>
+     <LABEL_TEXT>This Action Item record has reached the scheduled notification date. Please complete the open action item. &lt;br&gt;OneVizion Link: {trackor_link}  &lt;br&gt;Action ID: {xitor_key} &lt;br&gt;Parent Record(s): {v_project_key} &lt;br&gt;Action Name: {act_action_item_name} &lt;br&gt;Status: {act_action_status} &lt;br&gt;Category: {act_action_category} &lt;br&gt;Priority: {act_priority}&lt;br&gt;Department: {act_department_owner} &lt;br&gt;Due / Forecast Date: {act_due__forecast_date} &lt;br&gt;Future Notification Date: {act_future_notification_date} &lt;br&gt;Action Assigned To: {act_action_assigned_to} &lt;br&gt;Action Comments: {act_action_comments} &lt;br&gt;---</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-64633</APP_LABEL_ID>
+     <LABEL_TEXT>This Action Item record has reached the scheduled notification date. Please complete the open action item. &lt;br&gt;OneVizion Link: {trackor_link}  &lt;br&gt;Action ID: {xitor_key} &lt;br&gt;Parent Record(s): {v_project_key} &lt;br&gt;Action Name: {act_action_item_name} &lt;br&gt;Status: {act_action_status} &lt;br&gt;Category: {act_action_category} &lt;br&gt;Priority: {act_priority}&lt;br&gt;Department: {act_department_owner} &lt;br&gt;Due / Forecast Date: {act_due__forecast_date} &lt;br&gt;Future Notification Date: {act_future_notification_date} &lt;br&gt;Action Assigned To: {act_action_assigned_to} &lt;br&gt;Action Comments: {act_action_comments} &lt;br&gt;---</LABEL_TEXT>
+    </T_LABEL>
+   </LIST_LABEL>
+   <LIST_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>0</APP_LANG_ID>
+     <APP_LABEL_ID>-64632</APP_LABEL_ID>
+     <LABEL_TEXT>OneVizion - Action Item Notification</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>1</APP_LANG_ID>
+     <APP_LABEL_ID>-64632</APP_LABEL_ID>
+     <LABEL_TEXT>OneVizion - Action Item Notification</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>5</APP_LANG_ID>
+     <APP_LABEL_ID>-64632</APP_LABEL_ID>
+     <LABEL_TEXT>OneVizion - Action Item Notification</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>10</APP_LANG_ID>
+     <APP_LABEL_ID>-64632</APP_LABEL_ID>
+     <LABEL_TEXT>OneVizion - Action Item Notification</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>15</APP_LANG_ID>
+     <APP_LABEL_ID>-64632</APP_LABEL_ID>
+     <LABEL_TEXT>OneVizion - Action Item Notification</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>20</APP_LANG_ID>
+     <APP_LABEL_ID>-64632</APP_LABEL_ID>
+     <LABEL_TEXT>OneVizion - Action Item Notification</LABEL_TEXT>
+    </T_LABEL>
+    <T_LABEL>
+     <APP_LANG_ID>25</APP_LANG_ID>
+     <APP_LABEL_ID>-64632</APP_LABEL_ID>
+     <LABEL_TEXT>OneVizion - Action Item Notification</LABEL_TEXT>
+    </T_LABEL>
+   </LIST_LABEL>
+  </COMPONENT_LABELS>
+ </DB_PACKAGES_ITEM>
+</DB_PACKAGES><AUTOMATIONS>
+ <AUTOMATIONS_ITEM>
+  <AUTOM_ID>1000980</AUTOM_ID>
+  <AUTOM_PROC_NAME>Action Item Automation</AUTOM_PROC_NAME>
+  <AUTOM_NAME>ACT Action Created By Default</AUTOM_NAME>
+  <DESCRIPTION>Sets [ACT_ACTION_CREATED_BY] to [[user]] when [ACT_ACTION_CREATED_DATE] is NOT NULL</DESCRIPTION>
+  <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+  <STOP_ON_FILTER_MATCH>1</STOP_ON_FILTER_MATCH>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <TRIGGER_CONFIG_FIELDS>
+   <T_BPL_AUTOM_TRIGGER_CF>
+    <CONFIG_FIELD_NAME>ACT_ACTION_CREATED_DATE</CONFIG_FIELD_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <DATA_TYPE>2</DATA_TYPE>
+    <TRIGGER_TYPE_ID>8</TRIGGER_TYPE_ID>
+   </T_BPL_AUTOM_TRIGGER_CF>
+  </TRIGGER_CONFIG_FIELDS>
+  <TRIGGER_TASK_DATES/>
+  <TRIGGER_TASKS/>
+  <TRIGGER_TRACKOR_TYPES/>
+  <AUTOM_FILTERS>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>901</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000980</AUTOM_ID>
+    <ORDER_NUMBER>10</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>1010318</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_901</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS>
+       <T_BPL_FILTER_ATTRIB>
+        <FILTER_ID>1010318</FILTER_ID>
+        <FIELD_TYPE>5</FIELD_TYPE>
+        <FIELD_ID>1000064008</FIELD_ID>
+        <ORDER_NUMBER>1</ORDER_NUMBER>
+        <FIELD_NAME>ACT_ACTION_CREATED_DATE</FIELD_NAME>
+        <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+        <IS_DESC>0</IS_DESC>
+        <FILTER_OPER_ID>8</FILTER_OPER_ID>
+        <BY_STRING>0</BY_STRING>
+        <ATTRIB_ID>1006529</ATTRIB_ID>
+        <FILTER_VALUES/>
+       </T_BPL_FILTER_ATTRIB>
+      </FILTER_ATTRIBS>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>801</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>901</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>1</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>1</ACTION_MODE_ID>
+      <FORMULA_UI>util.getCurrentUser()</FORMULA_UI>
+      <ORDER_NUMBER>10</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>801</AUTOM_ACTION_ID>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_CREATED_BY</CONFIG_FIELD_NAME>
+          <DATA_TYPE>0</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+  </AUTOM_FILTERS>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>50</COMPONENT_ID>
+    <OBJECT_ID>1000980</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <TRIGGER_SCHEDULE/>
+  <TRIGGER_RELATION_TYPES/>
+ </AUTOMATIONS_ITEM>
+ <AUTOMATIONS_ITEM>
+  <AUTOM_ID>1000981</AUTOM_ID>
+  <AUTOM_PROC_NAME>Action Item Automation</AUTOM_PROC_NAME>
+  <AUTOM_NAME>ACT Created Date Default</AUTOM_NAME>
+  <DESCRIPTION>Sets [ACT_ACTION_CREATED_DATE] to [[date]] when [ACT_ACTION_ITEM_NAME] is NOT NULL</DESCRIPTION>
+  <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+  <STOP_ON_FILTER_MATCH>1</STOP_ON_FILTER_MATCH>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <TRIGGER_CONFIG_FIELDS>
+   <T_BPL_AUTOM_TRIGGER_CF>
+    <CONFIG_FIELD_NAME>ACT_ACTION_ITEM_NAME</CONFIG_FIELD_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <DATA_TYPE>0</DATA_TYPE>
+    <TRIGGER_TYPE_ID>8</TRIGGER_TYPE_ID>
+   </T_BPL_AUTOM_TRIGGER_CF>
+  </TRIGGER_CONFIG_FIELDS>
+  <TRIGGER_TASK_DATES/>
+  <TRIGGER_TASKS/>
+  <TRIGGER_TRACKOR_TYPES/>
+  <AUTOM_FILTERS>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>902</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000981</AUTOM_ID>
+    <ORDER_NUMBER>10</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>1010319</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_902</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS>
+       <T_BPL_FILTER_ATTRIB>
+        <FILTER_ID>1010319</FILTER_ID>
+        <FIELD_TYPE>5</FIELD_TYPE>
+        <FIELD_ID>1000063986</FIELD_ID>
+        <ORDER_NUMBER>1</ORDER_NUMBER>
+        <FIELD_NAME>ACT_ACTION_ITEM_NAME</FIELD_NAME>
+        <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+        <IS_DESC>0</IS_DESC>
+        <FILTER_OPER_ID>8</FILTER_OPER_ID>
+        <BY_STRING>0</BY_STRING>
+        <ATTRIB_ID>1006530</ATTRIB_ID>
+        <FILTER_VALUES/>
+       </T_BPL_FILTER_ATTRIB>
+      </FILTER_ATTRIBS>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>802</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>902</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>1</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>1</ACTION_MODE_ID>
+      <FORMULA_UI>current_date
+</FORMULA_UI>
+      <ORDER_NUMBER>10</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>802</AUTOM_ACTION_ID>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_CREATED_DATE</CONFIG_FIELD_NAME>
+          <DATA_TYPE>2</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+  </AUTOM_FILTERS>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>50</COMPONENT_ID>
+    <OBJECT_ID>1000981</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <TRIGGER_SCHEDULE/>
+  <TRIGGER_RELATION_TYPES/>
+ </AUTOMATIONS_ITEM>
+ <AUTOMATIONS_ITEM>
+  <AUTOM_ID>1000982</AUTOM_ID>
+  <AUTOM_PROC_NAME>Action Item Automation</AUTOM_PROC_NAME>
+  <AUTOM_NAME>Action Item Name Field Lock</AUTOM_NAME>
+  <DESCRIPTION>Sets [ACT_ACTION_ITEM_NAME] to Lock when [ACT_ACTION_CREATED_DATE] is NOT NULL</DESCRIPTION>
+  <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+  <STOP_ON_FILTER_MATCH>1</STOP_ON_FILTER_MATCH>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <TRIGGER_CONFIG_FIELDS>
+   <T_BPL_AUTOM_TRIGGER_CF>
+    <CONFIG_FIELD_NAME>ACT_ACTION_CREATED_DATE</CONFIG_FIELD_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <DATA_TYPE>2</DATA_TYPE>
+    <TRIGGER_TYPE_ID>8</TRIGGER_TYPE_ID>
+   </T_BPL_AUTOM_TRIGGER_CF>
+  </TRIGGER_CONFIG_FIELDS>
+  <TRIGGER_TASK_DATES/>
+  <TRIGGER_TASKS/>
+  <TRIGGER_TRACKOR_TYPES/>
+  <AUTOM_FILTERS>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>903</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000982</AUTOM_ID>
+    <ORDER_NUMBER>10</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>1010320</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_903</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS>
+       <T_BPL_FILTER_ATTRIB>
+        <FILTER_ID>1010320</FILTER_ID>
+        <FIELD_TYPE>5</FIELD_TYPE>
+        <FIELD_ID>1000064008</FIELD_ID>
+        <ORDER_NUMBER>1</ORDER_NUMBER>
+        <FIELD_NAME>ACT_ACTION_CREATED_DATE</FIELD_NAME>
+        <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+        <IS_DESC>0</IS_DESC>
+        <FILTER_OPER_ID>8</FILTER_OPER_ID>
+        <BY_STRING>0</BY_STRING>
+        <ATTRIB_ID>1006531</ATTRIB_ID>
+        <FILTER_VALUES/>
+       </T_BPL_FILTER_ATTRIB>
+      </FILTER_ATTRIBS>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>803</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>903</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>4</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>0</ACTION_MODE_ID>
+      <ORDER_NUMBER>10</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>803</AUTOM_ACTION_ID>
+        <VALUE_NUMBER>1</VALUE_NUMBER>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_ITEM_NAME</CONFIG_FIELD_NAME>
+          <DATA_TYPE>0</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+  </AUTOM_FILTERS>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>50</COMPONENT_ID>
+    <OBJECT_ID>1000982</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <TRIGGER_SCHEDULE/>
+  <TRIGGER_RELATION_TYPES/>
+ </AUTOMATIONS_ITEM>
+ <AUTOMATIONS_ITEM>
+  <AUTOM_ID>1000983</AUTOM_ID>
+  <AUTOM_PROC_NAME>Action Item Automation</AUTOM_PROC_NAME>
+  <AUTOM_NAME>Action Status Autofill</AUTOM_NAME>
+  <DESCRIPTION>Sets [ACT_ACTION_STATUS] to [Closed] when [ACT_FINISH_DATE] is NOT NULL,&lt;br&gt; to [Open] when [ACT_FINISH_DATE] is NULL</DESCRIPTION>
+  <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+  <STOP_ON_FILTER_MATCH>1</STOP_ON_FILTER_MATCH>
+  <PROGRAM_ID>1</PROGRAM_ID>
+  <TRIGGER_CONFIG_FIELDS>
+   <T_BPL_AUTOM_TRIGGER_CF>
+    <CONFIG_FIELD_NAME>ACT_FINISH_DATE</CONFIG_FIELD_NAME>
+    <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+    <DATA_TYPE>2</DATA_TYPE>
+    <TRIGGER_TYPE_ID>8</TRIGGER_TYPE_ID>
+   </T_BPL_AUTOM_TRIGGER_CF>
+  </TRIGGER_CONFIG_FIELDS>
+  <TRIGGER_TASK_DATES/>
+  <TRIGGER_TASKS/>
+  <TRIGGER_TRACKOR_TYPES/>
+  <AUTOM_FILTERS>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>904</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000983</AUTOM_ID>
+    <ORDER_NUMBER>10</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>1010321</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_904</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS>
+       <T_BPL_FILTER_ATTRIB>
+        <FILTER_ID>1010321</FILTER_ID>
+        <FIELD_TYPE>5</FIELD_TYPE>
+        <FIELD_ID>1000063972</FIELD_ID>
+        <ORDER_NUMBER>1</ORDER_NUMBER>
+        <FIELD_NAME>ACT_FINISH_DATE</FIELD_NAME>
+        <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+        <IS_DESC>0</IS_DESC>
+        <FILTER_OPER_ID>8</FILTER_OPER_ID>
+        <BY_STRING>0</BY_STRING>
+        <ATTRIB_ID>1006532</ATTRIB_ID>
+        <FILTER_VALUES/>
+       </T_BPL_FILTER_ATTRIB>
+      </FILTER_ATTRIBS>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>804</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>904</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>1</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>0</ACTION_MODE_ID>
+      <ORDER_NUMBER>10</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>804</AUTOM_ACTION_ID>
+        <VALUE_NUMBER>10023832</VALUE_NUMBER>
+        <VALUE_NUMBER_VTABLE_NAME>V_ACT_ACTION_STATUS</VALUE_NUMBER_VTABLE_NAME>
+        <VALUE_NUMBER_VTABLE_VALUE>
+         <T_ATTRIB_V_TABLE_VALUE>
+          <ATTRIB_V_TABLE_VALUE_ID>10023832</ATTRIB_V_TABLE_VALUE_ID>
+          <ATTRIB_V_TABLE_ID>100006513</ATTRIB_V_TABLE_ID>
+          <VALUE>Closed</VALUE>
+          <ORDER_NUM>20</ORDER_NUM>
+          <DISPLAY>1</DISPLAY>
+          <FILTERABLE>1</FILTERABLE>
+          <COLOR>fadcd6</COLOR>
+          <VALUE_LABELS>
+           <T_LABEL>
+            <APP_LANG_ID>0</APP_LANG_ID>
+            <APP_LABEL_ID>-15690</APP_LABEL_ID>
+            <LABEL_TEXT>Closed</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>1</APP_LANG_ID>
+            <APP_LABEL_ID>-15690</APP_LABEL_ID>
+            <LABEL_TEXT>Closed</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>5</APP_LANG_ID>
+            <APP_LABEL_ID>-15690</APP_LABEL_ID>
+            <LABEL_TEXT>Closed</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>10</APP_LANG_ID>
+            <APP_LABEL_ID>-15690</APP_LABEL_ID>
+            <LABEL_TEXT>닫은</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>15</APP_LANG_ID>
+            <APP_LABEL_ID>-15690</APP_LABEL_ID>
+            <LABEL_TEXT>Fermé</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>20</APP_LANG_ID>
+            <APP_LABEL_ID>-15690</APP_LABEL_ID>
+            <LABEL_TEXT>Fermé</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>25</APP_LANG_ID>
+            <APP_LABEL_ID>-15690</APP_LABEL_ID>
+            <LABEL_TEXT>Cerrado</LABEL_TEXT>
+           </T_LABEL>
+          </VALUE_LABELS>
+         </T_ATTRIB_V_TABLE_VALUE>
+        </VALUE_NUMBER_VTABLE_VALUE>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_STATUS</CONFIG_FIELD_NAME>
+          <DATA_TYPE>4</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+   <T_AUTOM_FILTER>
+    <AUTOM_FILTER_ID>905</AUTOM_FILTER_ID>
+    <AUTOM_ID>1000983</AUTOM_ID>
+    <ORDER_NUMBER>999</ORDER_NUMBER>
+    <FILTER_OPTS>
+     <T_BPL_FILTER>
+      <FILTER_OPT_ID>1010322</FILTER_OPT_ID>
+      <MODULE_NAME>AUTOM_TRACKOR_BROWSER</MODULE_NAME>
+      <IS_DEFAULT_FILTER>0</IS_DEFAULT_FILTER>
+      <IS_SUBGROUP>0</IS_SUBGROUP>
+      <NAME>AUTOM_FILTER_905</NAME>
+      <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+      <PROGRAM_ID>1</PROGRAM_ID>
+      <FILTER_VIEW_TYPE_ID>4</FILTER_VIEW_TYPE_ID>
+      <FOLDERS_PATH/>
+      <FILTER_ATTRIBS>
+       <T_BPL_FILTER_ATTRIB>
+        <FILTER_ID>1010322</FILTER_ID>
+        <FIELD_TYPE>5</FIELD_TYPE>
+        <FIELD_ID>1000063972</FIELD_ID>
+        <ORDER_NUMBER>1</ORDER_NUMBER>
+        <FIELD_NAME>ACT_FINISH_DATE</FIELD_NAME>
+        <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+        <IS_DESC>0</IS_DESC>
+        <FILTER_OPER_ID>7</FILTER_OPER_ID>
+        <BY_STRING>0</BY_STRING>
+        <ATTRIB_ID>1006533</ATTRIB_ID>
+        <FILTER_VALUES/>
+       </T_BPL_FILTER_ATTRIB>
+      </FILTER_ATTRIBS>
+      <FILTER_LOGIC_ITEMS/>
+      <COMPONENT_PACKAGES/>
+      <IS_PROPAGATE_XT_RESTRICTION>0</IS_PROPAGATE_XT_RESTRICTION>
+      <TT_RESTRICTION_XREFS/>
+     </T_BPL_FILTER>
+    </FILTER_OPTS>
+    <AUTOM_ACTIONS>
+     <T_BPL_AUTOM_ACTION>
+      <AUTOM_ACTION_ID>805</AUTOM_ACTION_ID>
+      <AUTOM_FILTER_ID>905</AUTOM_FILTER_ID>
+      <AUTOM_ACTION_TYPE_ID>1</AUTOM_ACTION_TYPE_ID>
+      <ACTION_MODE_ID>0</ACTION_MODE_ID>
+      <ORDER_NUMBER>999</ORDER_NUMBER>
+      <ENABLED>1</ENABLED>
+      <EXECUTE_RULES>0</EXECUTE_RULES>
+      <COMPONENT_LABELS/>
+      <ACTION_CF>
+       <T_BPL_AUTOM_ACTION_CF>
+        <AUTOM_ACTION_ID>805</AUTOM_ACTION_ID>
+        <VALUE_NUMBER>10023835</VALUE_NUMBER>
+        <VALUE_NUMBER_VTABLE_NAME>V_ACT_ACTION_STATUS</VALUE_NUMBER_VTABLE_NAME>
+        <VALUE_NUMBER_VTABLE_VALUE>
+         <T_ATTRIB_V_TABLE_VALUE>
+          <ATTRIB_V_TABLE_VALUE_ID>10023835</ATTRIB_V_TABLE_VALUE_ID>
+          <ATTRIB_V_TABLE_ID>100006513</ATTRIB_V_TABLE_ID>
+          <VALUE>Opened</VALUE>
+          <ORDER_NUM>10</ORDER_NUM>
+          <DISPLAY>1</DISPLAY>
+          <FILTERABLE>1</FILTERABLE>
+          <COLOR>cbfbd2</COLOR>
+          <VALUE_LABELS>
+           <T_LABEL>
+            <APP_LANG_ID>0</APP_LANG_ID>
+            <APP_LABEL_ID>-15693</APP_LABEL_ID>
+            <LABEL_TEXT>Open</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>1</APP_LANG_ID>
+            <APP_LABEL_ID>-15693</APP_LABEL_ID>
+            <LABEL_TEXT>Open</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>5</APP_LANG_ID>
+            <APP_LABEL_ID>-15693</APP_LABEL_ID>
+            <LABEL_TEXT>Open</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>10</APP_LANG_ID>
+            <APP_LABEL_ID>-15693</APP_LABEL_ID>
+            <LABEL_TEXT>열기</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>15</APP_LANG_ID>
+            <APP_LABEL_ID>-15693</APP_LABEL_ID>
+            <LABEL_TEXT>Ouvert</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>20</APP_LANG_ID>
+            <APP_LABEL_ID>-15693</APP_LABEL_ID>
+            <LABEL_TEXT>Ouvert</LABEL_TEXT>
+           </T_LABEL>
+           <T_LABEL>
+            <APP_LANG_ID>25</APP_LANG_ID>
+            <APP_LABEL_ID>-15693</APP_LABEL_ID>
+            <LABEL_TEXT>Abrir</LABEL_TEXT>
+           </T_LABEL>
+          </VALUE_LABELS>
+         </T_ATTRIB_V_TABLE_VALUE>
+        </VALUE_NUMBER_VTABLE_VALUE>
+        <CONFIG_FIELDS>
+         <T_CF_FIELD_NAME>
+          <CONFIG_FIELD_NAME>ACT_ACTION_STATUS</CONFIG_FIELD_NAME>
+          <DATA_TYPE>4</DATA_TYPE>
+          <TRACKOR_TYPE>Action_Items</TRACKOR_TYPE>
+         </T_CF_FIELD_NAME>
+        </CONFIG_FIELDS>
+        <ATTRIB_V_TABLE_VALUES/>
+        <IGNORE_LOCKS>0</IGNORE_LOCKS>
+       </T_BPL_AUTOM_ACTION_CF>
+      </ACTION_CF>
+      <ACTION_TASK_DATE/>
+      <ACTION_TASK/>
+      <ACTION_CHAT_MSG_ADD/>
+     </T_BPL_AUTOM_ACTION>
+    </AUTOM_ACTIONS>
+   </T_AUTOM_FILTER>
+  </AUTOM_FILTERS>
+  <COMPONENT_PACKAGES>
+   <T_BPL_COMP_PKG>
+    <COMPONENT_ID>50</COMPONENT_ID>
+    <OBJECT_ID>1000983</OBJECT_ID>
+    <COMPONENTS_PACKAGE_ID>101566</COMPONENTS_PACKAGE_ID>
+    <NAME>VP - Action Item Management</NAME>
+    <PROGRAM_ID>1</PROGRAM_ID>
+    <BPD_ITEMS/>
+    <IS_LOCKED>0</IS_LOCKED>
+   </T_BPL_COMP_PKG>
+  </COMPONENT_PACKAGES>
+  <TRIGGER_SCHEDULE/>
+  <TRIGGER_RELATION_TYPES/>
+ </AUTOMATIONS_ITEM>
+</AUTOMATIONS>
+</COMPONENTS>
